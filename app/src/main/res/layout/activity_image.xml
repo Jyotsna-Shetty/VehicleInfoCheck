@@ -34,6 +34,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/displayImageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ImPgHeading1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
