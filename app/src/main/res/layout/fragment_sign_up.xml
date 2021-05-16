@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E7F4E1"
+    android:backgroundTint="#E7F4E1"
+    tools:context=".SignUpFragment">
+
+    <TextView
+        android:id="@+id/HeadingText2"
+        android:layout_width="283dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="64dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:lineSpacingExtra="3sp"
+        android:text="@string/SignUpHeading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/EmailAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="Email"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:hint="@string/EmailHint"
+        android:inputType="textEmailAddress"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HeadingText2" />
+
+    <EditText
+        android:id="@+id/PhoneS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="PhoneNo"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:hint="@string/PhoneHint"
+        android:inputType="phone"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EmailAddress" />
+
+    <EditText
+        android:id="@+id/PasswordS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="Password"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:hint="@string/PasswordHint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PhoneS" />
+
+    <EditText
+        android:id="@+id/PasswordS2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="ConfirmPass"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:hint="@string/ConfirmPassHint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordS" />
+
+    <Button
+        android:id="@+id/SignUpButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/SignUpButton"
+        android:textColor="@color/black"
+        app:backgroundTint="#5BD6DB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordS2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
