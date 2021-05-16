@@ -16,7 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
-
+// ignore parameters
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,13 +68,14 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //On clicking the Sign Up button on the login page, app redirects to Sign up page
         view.findViewById(R.id.SignUpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signUpFragment);
             }
         });
-
+        //ON clicking the Login button, the API must be called to check the login credentials , for now the button redirects you to the capturing screen
         view.findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
