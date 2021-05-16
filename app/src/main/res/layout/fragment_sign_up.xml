@@ -12,7 +12,7 @@
         android:id="@+id/HeadingText2"
         android:layout_width="283dp"
         android:layout_height="41dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:lineSpacingExtra="3sp"
         android:text="@string/SignUpHeading"
@@ -20,6 +20,7 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
