@@ -27,7 +27,7 @@
         android:id="@+id/ImPgHeading2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="73dp"
+        android:layout_marginEnd="56dp"
         android:fontFamily="@font/tenor_sans"
         android:text="@string/ImHeading2"
         android:textColor="#5BD6DB"
@@ -51,7 +51,7 @@
         android:contentDescription="@string/ImageDes" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ChooseImTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="43dp"
@@ -76,7 +76,7 @@
         app:backgroundTint="#5BD6DB"
         app:iconTint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
 
     <Button
         android:id="@+id/galleryBtn"
@@ -90,6 +90,35 @@
         app:backgroundTint="#5BD6DB"
         app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/ScanMsgText"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
+
+    <Button
+        android:id="@+id/ScanBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="58dp"
+        android:backgroundTint="#5BD6DB"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/ScanButton"
+        android:textColor="@color/black"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,6 @@
     <string name="PasswordHint">Password</string>
     <string name="PhoneHint">Phone Number</string>
     <string name="LoginButton">Login</string>
-    <string name="ErrorEmail">Invalid username (Ensure there are no spaces)</string>
-    <string name="ErrorPass">Password must contain more than 7 characters (including 1 special character and 1 number)</string>
     <string name="OrMsg">Don\'t have an account on VAHAN yet?</string>
     <string name="SignUpHeading">Create your VAHAN account:</string>
     <string name="EmailHint">Email</string>
@@ -17,4 +15,6 @@
     <string name="ImHeading">VEHICLE</string>
     <string name="ImHeading2">INFOCHECK</string>
     <string name="ChooseImgMsg">Choose an image to scan</string>
+    <string name="ScanMsgText">To extract license plate details from chosen image, click SCAN.</string>
+    <string name="ScanButton">scan</string>
 </resources>

@@ -2,13 +2,15 @@ package com.example.vehicleinfocheck;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +23,7 @@ public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,6 +57,7 @@ public class LoginFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -68,11 +72,15 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //On clicking the Sign Up button on the login page, app redirects to Sign up page
+        EditText PhoneText= view.findViewById(R.id.Phone);
+        EditText PasswordText = view.findViewById(R.id.Password);
+
+        //On clicking the Sign Up button on the login page, app redirects to VAHAN website
         view.findViewById(R.id.SignUpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signUpFragment);
+
+                //NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signUpFragment);
             }
         });
         //ON clicking the Login button, the API must be called to check the login credentials , for now the button redirects you to the capturing screen
@@ -81,6 +89,44 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ImageActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        PhoneText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Auto generated method
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Auto generated method
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (PhoneText.getText().toString().trim().isEmpty()) {
+                    PhoneText.setError("Invalid phone number (check for spaces)");
+                }
+            }
+        });
+
+        PasswordText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (PasswordText.getText().toString().equals("") || PasswordText.getText().toString().trim().isEmpty()) {
+                    PasswordText.setError("Password is required");
+                }
             }
         });
     }
