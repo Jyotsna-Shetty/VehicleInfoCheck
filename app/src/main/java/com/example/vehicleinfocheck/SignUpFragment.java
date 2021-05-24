@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.regex.Pattern;
 
+// This fragment will be deleted upon integration of Login fragment with VAHAN website
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignUpFragment#newInstance} factory method to
@@ -94,7 +95,7 @@ public class SignUpFragment extends Fragment {
     }
 
 
-    boolean validateInput() {
+    /*boolean validateInput() {
 
         if (UsernameText.getText().toString()==null || UsernameText.getText().toString().trim().isEmpty()) {
             UsernameText.setError("Invalid Email (check for spaces)");
@@ -122,5 +123,5 @@ public class SignUpFragment extends Fragment {
             return false;
         }
         else return true;
-    }
+    }*/
 }

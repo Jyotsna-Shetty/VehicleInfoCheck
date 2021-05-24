@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">VehicleInfo Check</string>
+    // String resources for Login fragment
     <string name="LoginHeading">VAHAN Account login details:</string>
     <string name="PasswordHint">Password</string>
     <string name="PhoneHint">Phone Number</string>
     <string name="LoginButton">Login</string>
     <string name="OrMsg">Don\'t have an account on VAHAN yet?</string>
+    // String resources for Sign Up fragment
     <string name="SignUpHeading">Create your VAHAN account:</string>
     <string name="EmailHint">Email</string>
     <string name="ConfirmPassHint">Confirm password</string>
     <string name="SignUpButton">Sign Up</string>
+    // String resources for Image Activity
     <string name="CameraButton">Camera</string>
     <string name="GalleryButton">Gallery</string>
     <string name="ImageDes">License plate image</string>
