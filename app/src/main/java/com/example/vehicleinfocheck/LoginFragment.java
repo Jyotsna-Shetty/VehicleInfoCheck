@@ -1,6 +1,7 @@
 package com.example.vehicleinfocheck;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -82,6 +83,8 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.SignUpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent Getintent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vahan.nic.in/nrservices/faces/user/citizen/createcitizenuser.xhtml"));
+                startActivity(Getintent);
 
                 // Code to navigate to Sign Up fragment from Login fragment,commented out since it won't be used
                 // NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signUpFragment);
