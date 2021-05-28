@@ -97,7 +97,7 @@ public class ImageActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);//creating new file f from the currentPhotoPath
                 selectedImage.setImageURI(Uri.fromFile(f));//set image to imageview using uri
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));//display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
@@ -124,12 +124,13 @@ public class ImageActivity extends AppCompatActivity {
     }
     
     //creating collision resistant file name.This method creates a unique file name for new photo using data time stamp
+    //recommended method of creating image file from the camera
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creates time stamp
         String imageFileName = ";JPEG_" + timeStamp + "_";//file name starts with JPEG followed by timestamp
         // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) to save our file 
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        File image = File.createTempFile(//creating image file using the method of CreateTempFile we are passing image parameters
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir /* directory */
@@ -138,22 +139,22 @@ public class ImageActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();//using AbsolutePath of image ,image can be displayed in imageview
         return image;
     }
-
+    //open the camera and save our image file into the directory
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there is a camera activity to handle the intent
+        // Ensure that there is a camera activity to handle the intent , whether camera permission isgiven to the activity
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-// Create the File where the photo should go
+            // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = createImageFile();//createImageFile can throw IOException so put inside try catch block.Creating photoFile assigning to Create image file which returns image
             } catch (IOException ex) {
             }
 // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);//using file provider create URI
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);//using Mediastore.EXTRA-OUTPUT we can add extra input to our intent and can get data
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);//restarting the activity using camera permission code.
             }
         }
     }
