@@ -47,7 +47,7 @@ public class ImageActivity extends AppCompatActivity {
         galleryBtn = findViewById(R.id.galleryBtn);//selecting gallery using id from xml resorces
 
         cameraBtn.setOnClickListener(new View.OnClickListener(){
-            //OnClickListerner will be triggered when camera button is clicked
+            //OnClickListener will be triggered when camera button is clicked
             @Override
             public void onClick(View v){
                 askCameraPermissions();//directs to askCameraPermissions method to get camera permission
