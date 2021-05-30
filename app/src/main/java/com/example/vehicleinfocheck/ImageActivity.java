@@ -96,6 +96,7 @@ public class ImageActivity extends AppCompatActivity {
             //checking resultCode
             if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);//creating new file f from the currentPhotoPath
+                selectedImage.setVisibility(View.VISIBLE);
                 selectedImage.setImageURI(Uri.fromFile(f));//set image to imageview using uri
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));//display absolute url of the file
 
@@ -112,6 +113,7 @@ public class ImageActivity extends AppCompatActivity {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
+                selectedImage.setVisibility(View.VISIBLE);
                 selectedImage.setImageURI(contentUri);
             }
         }
