@@ -79,15 +79,13 @@ public class LoginFragment extends Fragment {
         EditText PhoneText= view.findViewById(R.id.Phone);
         EditText PasswordText = view.findViewById(R.id.Password);
 
-        // On clicking the Sign Up button on the login page, app redirects to VAHAN website (WIP)
+        // On clicking the Sign Up button on the login page, app redirects to VAHAN website
         view.findViewById(R.id.SignUpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent Getintent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vahan.nic.in/nrservices/faces/user/citizen/createcitizenuser.xhtml"));
                 startActivity(Getintent);
 
-                // Code to navigate to Sign Up fragment from Login fragment,commented out since it won't be used
-                // NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signUpFragment);
             }
         });
 
