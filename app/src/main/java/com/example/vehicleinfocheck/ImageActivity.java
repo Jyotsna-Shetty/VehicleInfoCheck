@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
         selectedImage = findViewById(R.id.displayImageView);//selecting imageview using id from xml resources
         cameraBtn = findViewById(R.id.cameraBtn);//selecting camera using id from xml resources
@@ -61,6 +63,8 @@ public class ImageActivity extends AppCompatActivity {
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
         });
+
+
     }
     //using check self permission method of ContextCompact checks whether permission is granted or not
     private void askCameraPermissions() {

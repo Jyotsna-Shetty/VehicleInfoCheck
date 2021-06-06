@@ -3,22 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
-
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="com.example.vehicleinfocheck.SignUpFragment"
-        android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
-        <argument android:name="myArg" />
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.vehicleinfocheck.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-    </fragment>
+    app:startDestination="@id/imageActivity">
+    <activity
+        android:id="@+id/imageActivity"
+        android:name="com.example.vehicleinfocheck.ImageActivity"
+        android:label="activity_image"
+        tools:layout="@layout/activity_image" />
 </navigation>

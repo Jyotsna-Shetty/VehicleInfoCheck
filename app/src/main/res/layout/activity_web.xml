@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom|center_horizontal"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_weight="0.11"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/browser"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1.82"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:gravity="center"
+            android:text="@string/confirm_details"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
+            android:gravity="center"
+            android:text="@string/explanation_detail"
+            android:textColor="#A8A4A4"
+            android:textSize="@dimen/font_small" />
+
+        <LinearLayout
+            android:id="@+id/layout_vehicle_plate"
+            android:layout_width="432dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="201dp"
+                android:layout_height="66dp"
+                android:gravity="center"
+                android:text="@string/vehicle_no"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/vehicle_plate"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:autofillHints="LPNum"
+                    android:hint="@string/plate_hint"
+                    android:inputType="textCapCharacters"
+                    android:padding="10dp" />
+
+                <!--android:text="MH12CD8039"-->
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_close"
+        android:layout_width="wrap_content"
+        android:layout_height="71dp"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:enabled="false"
+            android:text="@string/search"
+            android:textColor="@color/black"
+            app:backgroundTint="#41E1D3" />
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onDrawerButtonClicked"
+            android:text="@string/close"
+            android:textColor="@color/black"
+            app:backgroundTint="#41E1D3" />
+    </LinearLayout>
+
+</LinearLayout>

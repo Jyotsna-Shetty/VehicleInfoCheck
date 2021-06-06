@@ -20,4 +20,13 @@
     <string name="ChooseImgMsg">Choose an image to scan</string>
     <string name="ScanMsgText">To extract license plate details from chosen image, click SCAN.</string>
     <string name="ScanButton">scan</string>
+    <string name="browser">VAHAN Website</string>
+    <string name="confirm_details">Confirm vehicle number</string>
+    <string name="explanation_detail">since no software is 100% accurate</string>
+    <string name="vehicle_no">Vehicle number</string>
+    <string name="plate_hint">Vehicle num</string>
+    <string name="captchaText">Captcha</string>
+    <string name="captcha_hint">Enter Captcha</string>
+    <string name="search">search</string>
+    <string name="close">close</string>
 </resources>
