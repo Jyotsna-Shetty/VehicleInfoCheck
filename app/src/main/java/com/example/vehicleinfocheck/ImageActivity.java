@@ -35,18 +35,19 @@ public class ImageActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 102;//camera request code
     public static final int GALLERY_REQUEST_CODE = 105;//gallery request code
     ImageView selectedImage;//import Imageview variable as selectedImage
-    Button cameraBtn,galleryBtn;//import camera and gallery button
+    Button cameraBtn,galleryBtn, ScanBtn;//import camera and gallery button
     String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT); //fixes orientation to PORTRAIT mode
 
-        selectedImage = findViewById(R.id.displayImageView);//selecting imageview using id from xml resources
-        cameraBtn = findViewById(R.id.cameraBtn);//selecting camera using id from xml resources
-        galleryBtn = findViewById(R.id.galleryBtn);//selecting gallery using id from xml resorces
+        selectedImage = findViewById(R.id.displayImageView); //selecting imageview using id from xml resources
+        cameraBtn = findViewById(R.id.cameraBtn); //selecting camera using id from xml resources
+        galleryBtn = findViewById(R.id.galleryBtn); //selecting gallery using id from xml resources
+        ScanBtn = findViewById(R.id.ScanBtn); //selecting scan button using id from xml resources
 
         cameraBtn.setOnClickListener(new View.OnClickListener(){
             //OnClickListener will be triggered when camera button is clicked
@@ -55,8 +56,9 @@ public class ImageActivity extends AppCompatActivity {
                 askCameraPermissions();//directs to askCameraPermissions method to get camera permission
             }
         });
+
         galleryBtn.setOnClickListener(new View.OnClickListener() {
-            //OnClickListerner will be triggered when gallery button is clicked
+            //OnClickListener will be triggered when gallery button is clicked
             @Override
             public void onClick(View v) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//creating new intent to select photo from media storage
@@ -64,6 +66,16 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
+        ScanBtn.setOnClickListener(new View.OnClickListener() {
+            //OnClickListener will be triggered when scan button is clicked
+            //The function of this button is to send the selected image to the deep learning model, extract the license plate number and then redirect to WebActivity
+            //For now, it redirects to WebActivity. It will perform the above function after OCR process is complete
+            @Override
+            public void onClick(View v) {
+                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
+                startActivity(webIntent);
+            }
+        });
 
     }
     //using check self permission method of ContextCompact checks whether permission is granted or not
@@ -148,7 +160,7 @@ public class ImageActivity extends AppCompatActivity {
     //open the camera and save our image file into the directory
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there is a camera activity to handle the intent , whether camera permission isgiven to the activity
+        // Ensure that there is a camera activity to handle the intent , whether camera permission is given to the activity
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
