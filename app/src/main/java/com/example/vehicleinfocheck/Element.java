@@ -33,3 +33,5 @@ public class Element {
         return web.run2("javascript:window.HtmlViewer.processContent(" + elementLocator + ".name);");
     }
 }
+
+// Dummy line
