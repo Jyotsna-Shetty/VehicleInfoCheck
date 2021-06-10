@@ -177,3 +177,5 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 }
+
+// Dummy line
