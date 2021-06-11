@@ -43,18 +43,18 @@ public class WebScraper {
         });
     }
 
-
+    // Sets the user agent string's OS substring to string corresponding to Linux, hence displaying desktop version of website
     public void setUserAgentToDesktop(boolean desktop){
         if (desktop){
-            String osString = userAgent.substring(userAgent.indexOf("("), userAgent.indexOf(")") + 1);
-            web.getSettings().setUserAgentString(userAgent.replace(osString,"(X11; Linux x86_64)"));
+            String osString = userAgent.substring(userAgent.indexOf("("), userAgent.indexOf(")") + 1);  // OS substring located and set to 'osString'
+            web.getSettings().setUserAgentString(userAgent.replace(osString,"(X11; Linux x86_64)"));    //'osString' replaced
         }else{
-            web.getSettings().setUserAgentString(userAgent);
+            web.getSettings().setUserAgentString(userAgent);    // Default WebView user agent string used
         }
     }
-    // Method called in the WebActivity to display website
+    // This method is called in the WebActivity to display website
     public View getView() {
-        return web; // web is the variable that contains the WebView
+        return web;     // web is the variable that contains the WebView
     }
 
     public void setLoadImages(boolean enabled) {
