@@ -16,6 +16,6 @@ local.properties
 /build
 /captures
 /local.properties
-# Test Files (not used in this project, hecne added to .gitignore)
+# Test Folders (not used in this project, hecne added to .gitignore)
 /app/src/androidTest/java/com/example/vehicleinfocheck
 /app/src/test/java/com/example/vehicleinfocheck
