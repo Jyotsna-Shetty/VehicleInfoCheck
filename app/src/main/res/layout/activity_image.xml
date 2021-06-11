@@ -25,7 +25,7 @@
         android:id="@+id/ImPgHeading2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="25dp"
         android:fontFamily="@font/tenor_sans"
         android:text="@string/ImHeading2"
         android:textColor="#5BD6DB"
@@ -118,5 +118,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@+id/displayImageView"
+        app:layout_constraintEnd_toStartOf="@+id/ImPgHeading1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_custom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
