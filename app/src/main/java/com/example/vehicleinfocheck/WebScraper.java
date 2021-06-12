@@ -1,12 +1,12 @@
 package com.example.vehicleinfocheck;
 
+import android.webkit.WebView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import android.view.View;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.view.View;
 
 // Class that extracts the information from a website allowing its display within an app, defining all necessary methods for the same
 public class WebScraper {
@@ -43,7 +43,7 @@ public class WebScraper {
         });
     }
 
-    // Sets the user agent string's OS substring to string corresponding to Linux, hence displaying desktop version of website
+    // Sets the user agent string's Operating System substring to string corresponding to Linux
     public void setUserAgentToDesktop(boolean desktop){
         if (desktop){
             String osString = userAgent.substring(userAgent.indexOf("("), userAgent.indexOf(")") + 1);  // OS substring located and set to 'osString'
@@ -56,7 +56,7 @@ public class WebScraper {
     public View getView() {
         return web;     // web is the variable that contains the WebView
     }
-
+    // Loads layout of the webiste in the WebView
     public void setLoadImages(boolean enabled) {
         web.getSettings().setBlockNetworkImage(!enabled);
         web.getSettings().setLoadsImagesAutomatically(enabled);
