@@ -120,7 +120,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/LogoImageView"
         android:layout_width="67dp"
         android:layout_height="67dp"
         android:contentDescription="@null"
@@ -128,6 +128,6 @@
         app:layout_constraintEnd_toStartOf="@+id/ImPgHeading1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_custom" />
+        app:srcCompat="@mipmap/vic_app_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
