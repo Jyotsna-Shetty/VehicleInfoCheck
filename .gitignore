@@ -5,17 +5,17 @@
 /.idea/libraries
 # Files
 *.iml
+/local.properties
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+.DS_Store
 /build
 /captures
-/local.properties
-local.properties
-.DS_Store
 .externalNativeBuild
 .cxx
+local.properties
 # Test Folders (not used in this project, hence added to .gitignore)
 /app/src/androidTest/java/com/example/vehicleinfocheck/
 /app/src/test/java/com/example/vehicleinfocheck/
