@@ -70,13 +70,13 @@ public class WebScraper {
         JSInterface() {
         }
     }
-    protected String run2(String task){
+    protected String runJavascript(String task){
         web.evaluateJavascript(task, s -> {
         });
         return null;
     }
 
-    protected void run(String task){
+    protected void runAsUrl(String task){
         web.loadUrl(task);
     }
     // Find an element by its class name on the website which consists of a string name and integer ID

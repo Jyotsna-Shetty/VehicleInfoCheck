@@ -16,20 +16,20 @@ public class Element {
     public void setText(String text){
         String task = "javascript:" + elementLocator + ".value='" + text + "';void(0);";
         Log.i("Logmsg",task);
-        web.run(task);
+        web.runAsUrl(task);
     }
 
     public void setAttribute(String attribute,String text){
         String task = "javascript:" + elementLocator + "."+attribute+"='" + text + "';void(0);";
         Log.i("Logmsg",task);
-        web.run(task);
+        web.runAsUrl(task);
     }
 
     public void click(){
-        web.run("javascript:" + elementLocator + ".click();void(0);");
+        web.runAsUrl("javascript:" + elementLocator + ".click();void(0);");
     }
 
     public String getName(){
-        return web.run2("javascript:window.HtmlViewer.processContent(" + elementLocator + ".name);");
+        return web.runJavascript("javascript:window.HtmlViewer.processContent(" + elementLocator + ".name);");
     }
 }
