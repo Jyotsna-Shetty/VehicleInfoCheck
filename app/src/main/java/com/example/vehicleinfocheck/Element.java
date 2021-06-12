@@ -1,8 +1,8 @@
 package com.example.vehicleinfocheck;
+// An element is a field present in the website: an input field, a button, etc.
 
 import android.util.Log;
 
-// An element is a field present in the website: an input field, a button, etc.
 // This class defines all methods pertaining to elements
 public class Element {
     private final String elementLocator;    // String to find an element in the website
@@ -14,15 +14,15 @@ public class Element {
     }
 
     public void setText(String text){
-        String t = "javascript:" + elementLocator + ".value='" + text + "';void(0);";
-        Log.i("Logmsg",t);
-        web.run(t);
+        String task = "javascript:" + elementLocator + ".value='" + text + "';void(0);";
+        Log.i("Logmsg",task);
+        web.run(task);
     }
 
     public void setAttribute(String attribute,String text){
-        String t = "javascript:" + elementLocator + "."+attribute+"='" + text + "';void(0);";
-        Log.i("Logmsg",t);
-        web.run(t);
+        String task = "javascript:" + elementLocator + "."+attribute+"='" + text + "';void(0);";
+        Log.i("Logmsg",task);
+        web.run(task);
     }
 
     public void click(){
