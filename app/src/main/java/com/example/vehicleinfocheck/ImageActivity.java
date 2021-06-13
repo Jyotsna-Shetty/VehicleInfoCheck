@@ -170,7 +170,7 @@ public class ImageActivity extends AppCompatActivity {
             }
 // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);//using file provider create URI
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);//using file provider create URI
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);//using Mediastore.EXTRA-OUTPUT we can add extra input to our intent and can get data
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);//restarting the activity using camera permission code.
             }
