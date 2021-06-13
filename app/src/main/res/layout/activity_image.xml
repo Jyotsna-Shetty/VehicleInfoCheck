@@ -40,13 +40,25 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:contentDescription="@string/ImageDes"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23000002"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/sample_image" />
+
+    <TextView
+        android:id="@+id/SampleImgMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="@string/SampleImgText"
+        android:textColor="#A8A4A4"
+        app:layout_constraintBottom_toTopOf="@+id/ChooseImgMsg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayImageView" />
 
     <TextView
         android:id="@+id/ChooseImgMsg"
