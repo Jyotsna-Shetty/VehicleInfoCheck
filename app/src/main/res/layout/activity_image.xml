@@ -40,20 +40,32 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:contentDescription="@string/ImageDes"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23000002"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/sample_image" />
 
     <TextView
-        android:id="@+id/ChooseImTxt"
+        android:id="@+id/SampleImgMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="@string/SampleImgText"
+        android:textColor="#A8A4A4"
+        app:layout_constraintBottom_toTopOf="@+id/ChooseImgMsg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayImageView" />
+
+    <TextView
+        android:id="@+id/ChooseImgMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="43dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/tenor_sans"
         android:text="@string/ChooseImgMsg"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -68,13 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/raleway_semibold"
         android:text="@string/CameraButton"
         android:textColor="@color/black"
-        app:backgroundTint="#5BD6DB"
+        app:backgroundTint="#7EDEE8"
         app:iconTint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImgMsg" />
 
     <Button
         android:id="@+id/galleryBtn"
@@ -82,45 +94,45 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="64dp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/raleway_semibold"
         android:text="@string/GalleryButton"
         android:textColor="@color/black"
-        app:backgroundTint="#5BD6DB"
+        app:backgroundTint="#7EDEE8"
         app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImgMsg" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ScanMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/tenor_sans"
         android:text="@string/ScanMsgText"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ChooseImTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/ChooseImgMsg" />
 
     <Button
         android:id="@+id/ScanBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="58dp"
-        android:backgroundTint="#5BD6DB"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:backgroundTint="#7EDEE8"
+        android:fontFamily="@font/raleway_semibold"
         android:text="@string/ScanButton"
         android:textColor="@color/black"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/ScanMsg" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/LogoImageView"
         android:layout_width="67dp"
         android:layout_height="67dp"
         android:contentDescription="@null"

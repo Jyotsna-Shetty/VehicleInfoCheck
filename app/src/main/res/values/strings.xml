@@ -6,6 +6,7 @@
     <string name="ImageDes">License plate image</string>
     <string name="ImHeading">VEHICLE</string>
     <string name="ImHeading2">INFOCHECK</string>
+    <string name="SampleImgText">Sample image</string>
     <string name="ChooseImgMsg">Choose an image to scan</string>
     <string name="ScanMsgText">To extract license plate details from chosen image, click SCAN.</string>
     <string name="ScanButton">scan</string>
