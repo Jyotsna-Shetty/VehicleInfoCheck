@@ -17,4 +17,5 @@
     <string name="SubHeading2">since no software is 100% accurate</string>
     <string name="copyImDes">Copy</string>
     <string name="BrowserMsg">Login to VAHAN to get vehicle details</string>
+    <string name="LoadingPgLogoDes">LogoLoading</string>
 </resources>

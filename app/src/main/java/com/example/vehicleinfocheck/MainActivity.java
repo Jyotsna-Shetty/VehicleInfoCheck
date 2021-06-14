@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 // Class that contains layout of the complete app
 public class MainActivity extends AppCompatActivity {
-    //splash screen appears for 2 seconds
-    private static int SPLASH_SCREEN_TIME_OUT=2000;
 
 
     @Override
@@ -22,19 +20,18 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//to appear in full screen
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent image=new Intent(MainActivity.this,
-                        ImageActivity.class);
-                //Intent is used to switch from one activity to another.
+        //splash screen appears for 2.5 seconds
+        int SPLASH_SCREEN_TIME_OUT = 2500;
+        new Handler().postDelayed(() -> {
+            Intent image=new Intent(MainActivity.this,
+                    ImageActivity.class);
+            //Intent is used to switch from one activity to another.
 
-                startActivity(image);
-                //invoke the ImageActivity
+            startActivity(image);
+            //invoke the ImageActivity
 
-                finish();
-                //the current activity will get finished.
-            }
+            finish();
+            //the current activity will get finished.
         }, SPLASH_SCREEN_TIME_OUT);
 
 
