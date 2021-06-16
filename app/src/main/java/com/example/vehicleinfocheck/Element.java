@@ -4,6 +4,7 @@ package com.example.vehicleinfocheck;
 import android.util.Log;
 
 // This class defines all methods pertaining to elements
+// However, this class is not used in this project as the required methods did not work
 public class Element {
     private final String elementLocator;    // String to find an element in the website
     private final WebScraper web;           // Instance of the WebScraper class
