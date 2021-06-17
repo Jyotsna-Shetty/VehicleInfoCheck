@@ -95,7 +95,7 @@
                 android:autofillHints="PlateNo"
                 android:backgroundTint="#000000"
                 android:ems="10"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/montserrat"
                 android:hint="@string/VehicleNumHint"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"

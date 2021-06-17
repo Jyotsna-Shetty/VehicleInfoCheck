@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,8 +25,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.vehicleinfocheck.ml.CharacterRecognitionModel;
+
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.image.TensorImage;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -72,9 +83,12 @@ public class ImageActivity extends AppCompatActivity {
             //For now, it redirects to WebActivity. It will perform the above function after OCR process is complete
             @Override
             public void onClick(View v) {
-                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
-                startActivity(webIntent);
+             //   Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
+               // startActivity(webIntent);
+                ImageProcessing imageProcessing = new ImageProcessing();
+                imageProcessing.execution();
             }
+
         });
 
     }
@@ -175,5 +189,8 @@ public class ImageActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);//restarting the activity using camera permission code.
             }
         }
+    }
+    public String getCurrentPhotoPath(){
+        return currentPhotoPath;
     }
 }

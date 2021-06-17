@@ -24,13 +24,14 @@ public class WebActivity extends AppCompatActivity {
         ImageButton CopyButton = findViewById(R.id.CopyBtn);
         LinearLayout webview= findViewById(R.id.Webview);
         WebScraper webScraper = new WebScraper(this);   // Creating an instance of the WebScraper class
-
         webScraper.setUserAgentToDesktop(true);                 // Default: false
         webScraper.setLoadImages(true);                         // Default: false
         webview.addView(webScraper.getView());                  //Setting the LinearLayout to display the contents of the webScraper
         String FULL_URL = "https://vahan.nic.in/nrservices/faces/user/searchstatus.xhtml";
         webScraper.loadURL(FULL_URL);
         Toast.makeText(this, "Loading website...", Toast.LENGTH_SHORT).show();
+        ImageProcessing imageProcessing = new ImageProcessing();
+        vehicleNumber.setText(imageProcessing.returnResult());
 
         // OnClickListener triggered when CopyButton is clicked
         CopyButton.setOnClickListener(v -> {
