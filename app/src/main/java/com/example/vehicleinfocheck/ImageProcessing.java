@@ -48,7 +48,7 @@ public class ImageProcessing {
 
     public void extractPlate(){
         Mat image = Imgcodecs.imread(imgObject.getCurrentPhotoPath());
-        File cascadeDir = imgObject.getApplicationContext().getDir("indian_license_plate", imgObject.getApplicationContext().MODE_PRIVATE);
+        File cascadeDir = imgObject.getApplicationContext().getDir("indian_license_plate", ImageActivity.MODE_PRIVATE);
         File mCascadeFile = new File(cascadeDir, "indian_license_plate.xml");
 
         CascadeClassifier licenseDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
