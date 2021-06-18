@@ -37,10 +37,10 @@ public class WebActivity extends AppCompatActivity {
         CopyButton.setOnClickListener(v -> {
             // Creating an instance of ClipboardManager class
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("simple text", vehicleNumber.getText());    // Creates a clip with value = vehicleNumber
-            clipboard.setPrimaryClip(clip);
-            if (!vehicleNumber.getText().toString().trim().equals("")) {
-                Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();// Displayed only if there is text to copy
+            if (!vehicleNumber.getText().toString().trim().equals("")) {        // Clip is made only if there is text to copy
+                ClipData clip = ClipData.newPlainText("simple text", vehicleNumber.getText());  // Creates a clip with value = vehicleNumber
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
             }
         });
     }

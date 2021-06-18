@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,18 +25,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.example.vehicleinfocheck.ml.CharacterRecognitionModel;
-
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.tensorflow.lite.DataType;
-import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,6 +37,7 @@ public class ImageActivity extends AppCompatActivity {
     public static final int GALLERY_REQUEST_CODE = 105;//gallery request code
     ImageView selectedImage;//import Imageview variable as selectedImage
     Button cameraBtn,galleryBtn, ScanBtn;//import camera and gallery button
+    TextView sampleImgText;
     String currentPhotoPath;
 
     @Override
@@ -56,6 +47,7 @@ public class ImageActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT); //fixes orientation to PORTRAIT mode
 
         selectedImage = findViewById(R.id.displayImageView); //selecting imageview using id from xml resources
+        sampleImgText = findViewById(R.id.SampleImgMsg);
         cameraBtn = findViewById(R.id.cameraBtn); //selecting camera using id from xml resources
         galleryBtn = findViewById(R.id.galleryBtn); //selecting gallery using id from xml resources
         ScanBtn = findViewById(R.id.ScanBtn); //selecting scan button using id from xml resources
@@ -126,8 +118,8 @@ public class ImageActivity extends AppCompatActivity {
             //checking resultCode
             if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);//creating new file f from the currentPhotoPath
-                selectedImage.setVisibility(View.VISIBLE);
                 selectedImage.setImageURI(Uri.fromFile(f));//set image to imageview using uri
+                sampleImgText.setVisibility(View.INVISIBLE);
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));//display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -143,8 +135,8 @@ public class ImageActivity extends AppCompatActivity {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                selectedImage.setVisibility(View.VISIBLE);
                 selectedImage.setImageURI(contentUri);
+                sampleImgText.setVisibility(View.INVISIBLE);
             }
         }
     }
