@@ -3,6 +3,9 @@
 //
 package org.opencv.objdetect;
 
+import android.net.Uri;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.Mat;
@@ -33,7 +36,7 @@ public class CascadeClassifier {
     /**
      * Loads a classifier from a file.
      *
-     *     @param filename Name of the file from which the classifier is loaded.
+     * @param filename Name of the file from which the classifier is loaded.
      */
     public CascadeClassifier(String filename) {
         nativeObj = CascadeClassifier_0(filename);
@@ -44,7 +47,7 @@ public class CascadeClassifier {
     // C++:   cv::CascadeClassifier::CascadeClassifier()
     //
 
-    public CascadeClassifier() {
+    public CascadeClassifier(Uri xmlFilePath) {
         nativeObj = CascadeClassifier_1();
     }
 

@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ImageProcessing {
+/*public class ImageProcessing {
     static{ System.loadLibrary("opencv_java3");}
     static Map<Integer, Mat> map = new HashMap<>();
     static Map<Integer, Character> characterMap = new HashMap<>();
@@ -179,4 +179,4 @@ public class ImageProcessing {
         return result;
     }
 
-}
+}*/

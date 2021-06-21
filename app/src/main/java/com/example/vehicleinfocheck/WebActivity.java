@@ -30,8 +30,7 @@ public class WebActivity extends AppCompatActivity {
         String FULL_URL = "https://vahan.nic.in/nrservices/faces/user/searchstatus.xhtml";
         webScraper.loadURL(FULL_URL);
         Toast.makeText(this, "Loading website...", Toast.LENGTH_SHORT).show();
-        ImageProcessing imageProcessing = new ImageProcessing();
-        vehicleNumber.setText(imageProcessing.returnResult());
+        vehicleNumber.setText(ImageActivity.result);
 
         // OnClickListener triggered when CopyButton is clicked
         CopyButton.setOnClickListener(v -> {
