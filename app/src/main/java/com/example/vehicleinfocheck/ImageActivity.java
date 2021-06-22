@@ -227,7 +227,7 @@ public class ImageActivity extends AppCompatActivity {
     }
     public void extractPlate() throws IOException {
         File img = createImageFile();
-        Mat image = Imgcodecs.imread(img.getAbsolutePath());
+        Mat image = Imgcodecs.imread(img.getAbsolutePath(), 0);
         MatOfRect Detections = new MatOfRect();
         try {
             InputStream is = getResources().openRawResource(R.raw.indian_license_plate);
@@ -268,8 +268,9 @@ public class ImageActivity extends AppCompatActivity {
             rectCrop = new Rect(rect.x, rect.y, rect.width+b , rect.height+a);
             Imgproc.rectangle(image, new Point(rect.x, rect.y),
                     new Point(rect.x + rect.width + b, rect.y + rect.height + a), new Scalar(51, 51, 255), 3);
+            plate = new Mat(image, rectCrop);
         }
-        plate = new Mat(image,rectCrop);
+
     }
     public void characterSegmentation(){
         Mat src = plate;
