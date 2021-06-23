@@ -226,8 +226,7 @@ public class ImageActivity extends AppCompatActivity {
         return currentPhotoPath;
     }
     public void extractPlate() throws IOException {
-        File img = createImageFile();
-        Mat image = Imgcodecs.imread(img.getAbsolutePath(), 0);
+        Mat image = Imgcodecs.imread(currentPhotoPath);
         MatOfRect Detections = new MatOfRect();
         try {
             InputStream is = getResources().openRawResource(R.raw.indian_license_plate);
