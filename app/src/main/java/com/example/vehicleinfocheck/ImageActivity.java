@@ -109,7 +109,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
-    // onActivityResult method is used to display and save image as data of this app
+    //onActivityResult method is used to display and save image as data of this app
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -151,7 +151,7 @@ public class ImageActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  //creates time stamp
         String imageFileName = ";JPEG_" + timeStamp + "_";  //creating image file
-        // Standard directory to place image
+        //Standard directory to place image
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //creating image file using method of CreateTempFile
         File image = File.createTempFile(
@@ -159,7 +159,7 @@ public class ImageActivity extends AppCompatActivity {
                 ".jpg", /* suffix */
                 storageDir /* directory */
         );
-        // gets absolute path of image
+        //gets absolute path of image
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -167,16 +167,16 @@ public class ImageActivity extends AppCompatActivity {
     //this method opens the camera and save our image file into the directory
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // ensures camera is ready
+        //ensures camera is ready
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
+            //Create the File where the photo should go
             File photoFile = null;
             //createImageFile method within try catch block to prevent IOException
             try {
                 photoFile = createImageFile();  //this returns image
             } catch (IOException ex) {
             }
-             // Continue only if the File was successfully created
+             //Continue only if the File was successfully created
             if (photoFile != null) {
             Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);  //using file provider create URI
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);  //can add extra input
