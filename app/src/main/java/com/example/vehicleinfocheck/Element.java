@@ -1,13 +1,13 @@
-// This class is not used in this project as the required methods did not work
+//This class is not used in this project as the required methods did not work
 package com.example.vehicleinfocheck;
-// An element is a field present in the website: an input field, a button, etc.
+//An element is a field present in the website: an input field, a button, etc.
 
 import android.util.Log;
 
-// This class defines all methods pertaining to elements
+//This class defines all methods pertaining to elements
 public class Element {
-    private final String elementLocator;    // String to find an element in the website
-    private final WebScraper web;           // Instance of the WebScraper class
+    private final String elementLocator;    //String to find an element in the website
+    private final WebScraper web;           //Instance of the WebScraper class
 
     Element (WebScraper web, String elementLocator){
         this.web = web;
