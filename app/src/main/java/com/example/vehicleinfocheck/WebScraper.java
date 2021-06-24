@@ -8,11 +8,11 @@ import android.os.Build.VERSION_CODES;
 import android.webkit.WebViewClient;
 import android.view.View;
 
-// Class that extracts the information from a website allowing its display within an app, defining all necessary methods for the same
+//Class that extracts the information from a website allowing its display within an app, defining all necessary methods for the same
 public class WebScraper {
-    private final WebView web;                          // WebView widget to display website
-    private final String userAgent;                     // String resource to be extracted from website
-    private onPageLoadedListener onpageloadedlistener;  // Similar to an OnClickListener, action performed when website has loaded
+    private final WebView web;                          //WebView widget to display website
+    private final String userAgent;                     //String resource to be extracted from website
+    private onPageLoadedListener onpageloadedlistener;  //Similar to an OnClickListener, action performed when website has loaded
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     public WebScraper(final Context context) {
@@ -43,20 +43,20 @@ public class WebScraper {
         });
     }
 
-    // Sets the user agent string's Operating System substring to string corresponding to Linux
+    //Sets the user agent string's Operating System substring to string corresponding to Linux
     public void setUserAgentToDesktop(boolean desktop){
         if (desktop){
-            String osString = userAgent.substring(userAgent.indexOf("("), userAgent.indexOf(")") + 1);  // OS substring located and set to 'osString'
+            String osString = userAgent.substring(userAgent.indexOf("("), userAgent.indexOf(")") + 1);  //OS substring located and set to 'osString'
             web.getSettings().setUserAgentString(userAgent.replace(osString,"(X11; Linux x86_64)"));    //'osString' replaced
         }else{
-            web.getSettings().setUserAgentString(userAgent);    // Default WebView user agent string used
+            web.getSettings().setUserAgentString(userAgent);    //Default WebView user agent string used
         }
     }
-    // This method is called in the WebActivity to display website
+    //This method is called in the WebActivity to display website
     public View getView() {
-        return web;     // web is the variable that contains the WebView
+        return web;     //web is the variable that contains the WebView
     }
-    // Loads layout of the webiste in the WebView
+    //Loads layout of the webiste in the WebView
     public void setLoadImages(boolean enabled) {
         web.getSettings().setBlockNetworkImage(!enabled);
         web.getSettings().setLoadsImagesAutomatically(enabled);
@@ -79,11 +79,11 @@ public class WebScraper {
     protected void runAsUrl(String task){
         web.loadUrl(task);
     }
-    // Find an element by its class name on the website which consists of a string name and integer ID
+    //Find an element by its class name on the website which consists of a string name and integer ID
     public Element findElementByClassName(String classname, int id){
         return new Element(this, "document.getElementsByClassName('" + classname + "')[" + id + "]");
     }
-    // Find an element by its ID on the website which is a string value
+    //Find an element by its ID on the website which is a string value
     public Element findElementById(String id){
         return new Element(this, "document.getElementById('" + id + "')" );
     }
