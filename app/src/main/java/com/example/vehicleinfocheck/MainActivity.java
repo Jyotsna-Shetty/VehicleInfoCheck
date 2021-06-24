@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
 
-// Class that contains layout of the complete app
+//Class that contains layout of the complete app
 public class MainActivity extends AppCompatActivity {
 
     @Override
