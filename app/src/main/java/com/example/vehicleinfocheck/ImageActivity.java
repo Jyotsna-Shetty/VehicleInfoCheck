@@ -113,14 +113,12 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Toast.makeText(ImageActivity.this,"Processing image...",Toast.LENGTH_LONG).show();
                     execution();
                     Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
                     startActivity(webIntent);
                 } catch (Exception e) {
-                    Toast.makeText(ImageActivity.this,"Processing image...",Toast.LENGTH_LONG).show();
                     e.printStackTrace();
-                    startActivity(getIntent());
+                    recreate();
                     Toast.makeText(ImageActivity.this,"Unable to identify license plate number",Toast.LENGTH_LONG).show();
                 }
             }
