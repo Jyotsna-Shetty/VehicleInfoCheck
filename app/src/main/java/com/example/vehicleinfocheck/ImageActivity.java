@@ -113,12 +113,16 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    Toast.makeText(ImageActivity.this,"Processing image...",Toast.LENGTH_LONG).show();
                     execution();
-                } catch (IOException e) {
+                    Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
+                    startActivity(webIntent);
+                } catch (Exception e) {
+                    Toast.makeText(ImageActivity.this,"Processing image...",Toast.LENGTH_LONG).show();
                     e.printStackTrace();
+                    startActivity(getIntent());
+                    Toast.makeText(ImageActivity.this,"Unable to identify license plate number",Toast.LENGTH_LONG).show();
                 }
-                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
-                startActivity(webIntent);
             }
 
         });
@@ -222,10 +226,8 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
-    public String getCurrentPhotoPath(){
-        return currentPhotoPath;
-    }
-    public void extractPlate() throws IOException {
+
+    public void extractPlate() {
         Mat image = Imgcodecs.imread(currentPhotoPath);
         MatOfRect Detections = new MatOfRect();
         try {
@@ -291,7 +293,7 @@ public class ImageActivity extends AppCompatActivity {
         Imgproc.rectangle(binary, new Point(0,0), new Point(binary.width(),binary.height()), new Scalar(255, 255, 255), 3);
         plateBW = binary;
     }
-    public void findContour() throws IOException {
+    public void findContour() throws Exception {
         Mat src = plateBW;
         //Converting the source image to binary
         Mat gray = new Mat(src.rows(), src.cols(), src.type());
@@ -336,7 +338,7 @@ public class ImageActivity extends AppCompatActivity {
         }
         execution();
     }
-    public void execution() throws IOException {
+    public void execution() throws Exception {
         extractPlate();
         characterSegmentation();
         findContour();
