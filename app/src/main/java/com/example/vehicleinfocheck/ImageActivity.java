@@ -45,9 +45,9 @@ public class ImageActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
         selectedImage = findViewById(R.id.displayImageView);  //finding imageview button
-        cameraBtn = findViewById(R.id.cameraBtn);  //finding camera button
-        galleryBtn = findViewById(R.id.galleryBtn);  //finding gallery button
-        ScanBtn = findViewById(R.id.ScanBtn);  //finding scan button
+        cameraBtn = findViewById(R.id.cameraBtn);  
+        galleryBtn = findViewById(R.id.galleryBtn);  
+        ScanBtn = findViewById(R.id.ScanBtn);  
 
         cameraBtn.setOnClickListener(new View.OnClickListener(){
             //OnClickListener will be triggered when camera button is clicked
@@ -80,7 +80,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    //checks for camera permission
+   
     //using checkSelfPermission method of ContextCompact checks whether permission is granted or not
     private void askCameraPermissions() {
         //checks for permission from manifest file using PackageManager.PERMISSION_GRANTED
@@ -90,7 +90,7 @@ public class ImageActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
             //user has given permission to the app
-            dispatchTakePictureIntent();  //directs to dispatchTakePictureIntent
+            dispatchTakePictureIntent();  
         }
     }
     
@@ -105,7 +105,7 @@ public class ImageActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             } else {
                 //toast message appear when both conditions are false
-                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera permission is required to use camera.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -115,13 +115,13 @@ public class ImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                File f = new File(currentPhotoPath);  //creating file f from currentPhotoPath
-                selectedImage.setVisibility(View.VISIBLE);  //sets imageview visible
-                selectedImage.setImageURI(Uri.fromFile(f));  //set image to imageview using uri
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));  //display absolute url of the file
+                File newfile = new File(currentPhotoPath);  //creating file  from currentPhotoPath
+                selectedImage.setVisibility(View.VISIBLE);  
+                selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri contentUri = Uri.fromFile(f);
+                Uri contentUri = Uri.fromFile(newfile);
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
             }
@@ -130,10 +130,10 @@ public class ImageActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 if(data != null) {
                     Uri contentUri = data.getData();  //creating content URI using intent data
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  //creating time stamp
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  
                     String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                     Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                    selectedImage.setVisibility(View.VISIBLE);  //sets imageview to visible
+                    selectedImage.setVisibility(View.VISIBLE);  
                     selectedImage.setImageURI(contentUri);
                 }
             }
@@ -171,16 +171,17 @@ public class ImageActivity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             //Create the File where the photo should go
             File photoFile = null;
-            //createImageFile method within try catch block to prevent IOException
+            // to prevent IOException
             try {
                 photoFile = createImageFile();  //this returns image
             } catch (IOException ex) {
+                 System.out.println(ex.getMessage());
             }
              //Continue only if the File was successfully created
             if (photoFile != null) {
             Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);  //using file provider create URI
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);  //can add extra input
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);  //restarting the activity using camera permission code.
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);  //restarting the activity 
             }
         }
     }
