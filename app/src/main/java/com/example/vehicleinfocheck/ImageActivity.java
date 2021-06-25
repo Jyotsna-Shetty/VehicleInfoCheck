@@ -114,6 +114,7 @@ public class ImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     execution();
+                    Log.d("FINAL RESULT","License Plate Num: " + result);
                     Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
                     startActivity(webIntent);
                 } catch (Exception e) {
@@ -294,14 +295,15 @@ public class ImageActivity extends AppCompatActivity {
     public void findContour() throws Exception {
         Mat src = plateBW;
         //Converting the source image to binary
-        Mat gray = new Mat(src.rows(), src.cols(), src.type());
-        Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-        Mat binary = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
-        Imgproc.threshold(gray, binary, 100, 255, Imgproc.THRESH_BINARY_INV);
+        //Mat gray = new Mat(src.rows(), src.cols(),src.type());
+        //Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+        //Mat binary = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
+        //Imgproc.threshold(src, binary, 100, 255, Imgproc.THRESH_BINARY_INV);
         //Finding Contours
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
-        Imgproc.findContours(binary, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(src, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        Log.v("TESTING","findContour");
         Rect charCrop = null;
         for ( int contourIdx=0; contourIdx < contours.size(); contourIdx++ )
         {
@@ -334,7 +336,6 @@ public class ImageActivity extends AppCompatActivity {
 
             }
         }
-        execution();
     }
     public void execution() throws Exception {
         extractPlate();
@@ -364,9 +365,10 @@ public class ImageActivity extends AppCompatActivity {
                 model.close();
                 char character = characterMap.get(outputFeature0.getIntArray()[0]);
                 result = result + character;
+                Log.d("SUCCESS","License Plate Num: " + result);
 
             } catch (IOException e) {
-                // TODO Handle the exception
+                Log.d("FAIL","NO OUTPUT");
             }
 
         }
