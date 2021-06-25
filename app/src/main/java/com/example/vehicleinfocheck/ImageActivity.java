@@ -76,6 +76,7 @@ public class ImageActivity extends AppCompatActivity {
     static Mat plateBW;
     static Bitmap bmp;
     public static String result;
+    char character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class ImageActivity extends AppCompatActivity {
                 try {
                     execution();
                     Log.d("FINAL RESULT","License Plate Num: " + result);
+                    Log.d("FINAL RESULT","RES= "+ character);
                     Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
                     startActivity(webIntent);
                 } catch (Exception e) {
@@ -274,8 +276,8 @@ public class ImageActivity extends AppCompatActivity {
     }
     public void characterSegmentation(){
         Mat src = plate;
-        Mat dst = new Mat(); // New matrix to store the final image where the input image is supposed to be written
-        Imgproc.resize(src, dst, new Size(333, 75));// Scaling the Image using Resize function
+        Mat dst = new Mat(); //New matrix to store the final image where the input image is supposed to be written
+        Imgproc.resize(src, dst, new Size(333, 75));//Scaling the Image using Resize function
         //Converting the source image to binary
         Mat gray = new Mat(dst.rows(), dst.cols(), dst.type());
         Imgproc.cvtColor(dst, gray, Imgproc.COLOR_BGR2GRAY);
@@ -307,7 +309,7 @@ public class ImageActivity extends AppCompatActivity {
         Rect charCrop = null;
         for ( int contourIdx=0; contourIdx < contours.size(); contourIdx++ )
         {
-            // Minimum size allowed for consideration
+            //Minimum size allowed for consideration
             MatOfPoint2f approxCurve = new MatOfPoint2f();
             MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(contourIdx).toArray() );
             //Processing on mMOP2f1 which is in type MatOfPoint2f
@@ -317,7 +319,7 @@ public class ImageActivity extends AppCompatActivity {
             //Convert back to MatOfPoint
             MatOfPoint points = new MatOfPoint( approxCurve.toArray() );
 
-            // Get bounding rect of contour
+            //Get bounding rect of contour
             Rect rect = Imgproc.boundingRect(points);
             if((Imgproc.contourArea(contours.get(contourIdx))>100) & (Imgproc.contourArea(contours.get(contourIdx))<1500)){
 
@@ -350,19 +352,21 @@ public class ImageActivity extends AppCompatActivity {
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
 
-                // Creates inputs for reference.
+                //Creates inputs for reference.
                 TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28, 3}, DataType.FLOAT32);
                 TensorImage tensorImage = new TensorImage(DataType.FLOAT32);
                 tensorImage.load(bmp);
                 ByteBuffer byteBuffer = tensorImage.getBuffer();
 
                 inputFeature0.loadBuffer(byteBuffer);
-                // Runs model inference and gets result.
+                //Runs model inference and gets result.
                 CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-                // Releases model resources if no longer used.
+                //Releases model resources if no longer used.
                 model.close();
+                //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                //char character = characters.charAt(outputFeature0.getIntArray()[0]);
                 char character = characterMap.get(outputFeature0.getIntArray()[0]);
                 result = result + character;
                 Log.d("SUCCESS","License Plate Num: " + result);
@@ -379,7 +383,7 @@ public class ImageActivity extends AppCompatActivity {
         String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for(Character x : characters.toCharArray()){
             characterMap.put(i, x);
-            i++;
+            ++i;
         }
     }
     public String returnResult(){
