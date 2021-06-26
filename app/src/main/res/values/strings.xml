@@ -6,6 +6,7 @@
     <string name="ImageDes">License plate image</string>
     <string name="ImHeading">VEHICLE</string>
     <string name="ImHeading2">INFOCHECK</string>
+    <string name="SampleImgText">Sample image</string>
     <string name="ChooseImgMsg">Choose an image to scan</string>
     <string name="ScanMsgText">To extract license plate details from chosen image, click SCAN.</string>
     <string name="ScanButton">scan</string>
@@ -16,4 +17,5 @@
     <string name="SubHeading2">since no software is 100% accurate</string>
     <string name="copyImDes">Copy</string>
     <string name="BrowserMsg">Login to VAHAN to get vehicle details</string>
+    <string name="LoadingPgLogoDes">LogoLoading</string>
 </resources>

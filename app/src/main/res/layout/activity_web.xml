@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="bottom|center_horizontal"
+    android:layout_gravity="center_horizontal"
     android:background="#E7F4E1"
     android:orientation="vertical">
 
@@ -50,31 +50,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="142dp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_weight="0"
+        android:layout_height="116dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/SubHead1"
             android:layout_width="match_parent"
             android:layout_height="23dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/tenor_sans"
             android:gravity="center"
             android:text="@string/SubHeading1"
             android:textColor="@color/black"
             android:textSize="@dimen/font_normal"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/SubHead2"
-            android:layout_width="match_parent"
-            android:layout_height="17dp"
-            android:gravity="center"
-            android:text="@string/SubHeading2"
-            android:textColor="#A8A4A4"
-            android:textSize="@dimen/font_small" />
 
         <LinearLayout
             android:id="@+id/NumPlateLayout"
@@ -89,13 +78,13 @@
                 android:id="@+id/VehicleNum"
                 android:layout_width="238dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="70dp"
                 android:layout_weight="0"
                 android:autofillHints="PlateNo"
                 android:backgroundTint="#000000"
                 android:ems="10"
-                android:fontFamily="@font/montserrat"
+                android:fontFamily="sans-serif"
                 android:hint="@string/VehicleNumHint"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
@@ -111,7 +100,6 @@
                     style="@style/Widget.AppCompat.ImageButton"
                     android:layout_width="45dp"
                     android:layout_height="46dp"
-                    android:layout_marginTop="5dp"
                     android:contentDescription="@string/copyImDes"
                     android:scaleType="center"
                     app:srcCompat="@mipmap/copy_button" />

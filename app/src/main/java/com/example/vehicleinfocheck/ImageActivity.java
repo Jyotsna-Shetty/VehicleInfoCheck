@@ -15,6 +15,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,8 +35,9 @@ public class ImageActivity extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;  //camera request code
     public static final int GALLERY_REQUEST_CODE = 105;  //gallery request code
-    ImageView selectedImage;  //import Imageview  as selectedImage
-    Button cameraBtn,galleryBtn, ScanBtn;  //import buttons
+    ImageView selectedImage;  //import Imageview as selectedImage
+    Button cameraBtn,galleryBtn, ScanBtn; //import buttons
+    TextView sampleImgText;
     String currentPhotoPath;
 
     @Override
@@ -44,10 +46,11 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
-        selectedImage = findViewById(R.id.displayImageView);  //finding imageview
-        cameraBtn = findViewById(R.id.cameraBtn);  
-        galleryBtn = findViewById(R.id.galleryBtn);  
-        ScanBtn = findViewById(R.id.ScanBtn);  
+        selectedImage = findViewById(R.id.displayImageView); //finding imageview
+        sampleImgText = findViewById(R.id.SampleImgMsg);
+        cameraBtn = findViewById(R.id.cameraBtn); 
+        galleryBtn = findViewById(R.id.galleryBtn);
+        ScanBtn = findViewById(R.id.ScanBtn); 
 
         cameraBtn.setOnClickListener(new View.OnClickListener(){
             //OnClickListener will be triggered when camera button is clicked
@@ -116,8 +119,8 @@ public class ImageActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 File newfile = new File(currentPhotoPath);  //creating file  from currentPhotoPath
-                selectedImage.setVisibility(View.VISIBLE);  
                 selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
+                sampleImgText.setVisibility(View.INVISIBLE);
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -133,8 +136,8 @@ public class ImageActivity extends AppCompatActivity {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  
                     String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                     Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                    selectedImage.setVisibility(View.VISIBLE);  
                     selectedImage.setImageURI(contentUri);
+                    sampleImgText.setVisibility(View.INVISIBLE);
                 }
             }
         }
@@ -179,7 +182,7 @@ public class ImageActivity extends AppCompatActivity {
             }
              //Continue only if the File was successfully created
             if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);  //using file provider create URI
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);  //using file provider create URI
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);  //can add extra input
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);  //restarting the activity 
             }
