@@ -140,6 +140,6 @@
         app:layout_constraintEnd_toStartOf="@+id/ImPgHeading1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_custom" />
+        app:srcCompat="@mipmap/vic_app_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,11 @@
-*.iml
+# Folders
 .gradle
-/local.properties
-/.idea
+.idea
 /.idea/caches
 /.idea/libraries
+# Files
+*.iml
+/local.properties
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
@@ -14,5 +16,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/androidTest/java/com/example/vehicleinfocheck
-/app/src/test/java/com/example/vehicleinfocheck
+# Test Folders (not used in this project, hence added to .gitignore)
+/app/src/androidTest/java/com/example/vehicleinfocheck/
+/app/src/test/java/com/example/vehicleinfocheck/

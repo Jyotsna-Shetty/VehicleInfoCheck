@@ -33,10 +33,10 @@ import java.util.Date;
 public class ImageActivity extends AppCompatActivity {
 
     public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;//camera request code
-    public static final int GALLERY_REQUEST_CODE = 105;//gallery request code
-    ImageView selectedImage;//import Imageview variable as selectedImage
-    Button cameraBtn,galleryBtn, ScanBtn;//import camera and gallery button
+    public static final int CAMERA_REQUEST_CODE = 102;  //camera request code
+    public static final int GALLERY_REQUEST_CODE = 105;  //gallery request code
+    ImageView selectedImage;  //import Imageview as selectedImage
+    Button cameraBtn,galleryBtn, ScanBtn; //import buttons
     TextView sampleImgText;
     String currentPhotoPath;
 
@@ -44,19 +44,20 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT); //fixes orientation to PORTRAIT mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
-        selectedImage = findViewById(R.id.displayImageView); //selecting imageview using id from xml resources
+        selectedImage = findViewById(R.id.displayImageView); //finding imageview
         sampleImgText = findViewById(R.id.SampleImgMsg);
-        cameraBtn = findViewById(R.id.cameraBtn); //selecting camera using id from xml resources
-        galleryBtn = findViewById(R.id.galleryBtn); //selecting gallery using id from xml resources
-        ScanBtn = findViewById(R.id.ScanBtn); //selecting scan button using id from xml resources
+        cameraBtn = findViewById(R.id.cameraBtn); 
+        galleryBtn = findViewById(R.id.galleryBtn);
+        ScanBtn = findViewById(R.id.ScanBtn); 
 
         cameraBtn.setOnClickListener(new View.OnClickListener(){
             //OnClickListener will be triggered when camera button is clicked
+            //directs to askCameraPermissions to get Camera Permissions
             @Override
             public void onClick(View v){
-                askCameraPermissions();//directs to askCameraPermissions method to get camera permission
+                askCameraPermissions();
             }
         });
 
@@ -64,7 +65,7 @@ public class ImageActivity extends AppCompatActivity {
             //OnClickListener will be triggered when gallery button is clicked
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//creating new intent to select photo from media storage
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);  //creating new intent to select photo from media storage
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
         });
@@ -75,21 +76,24 @@ public class ImageActivity extends AppCompatActivity {
             //For now, it redirects to WebActivity. It will perform the above function after OCR process is complete
             @Override
             public void onClick(View v) {
-                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
+                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class);
                 startActivity(webIntent);
             }
         });
 
     }
-    //using check self permission method of ContextCompact checks whether permission is granted or not
+
+   
+    //using checkSelfPermission method of ContextCompact checks whether permission is granted or not
     private void askCameraPermissions() {
-        //PERMISSION_GRANTED gives binary output if is it equal to PackageManager.PERMISSION_GRANTED then the user has already given the access
+        //checks for permission from manifest file using PackageManager.PERMISSION_GRANTED
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            //Activitycompat class requests permission during runtime
-            //Permission is passed within the string from manifest
+            //Activitycompat class requestPermissions method requests permission during runtime
+            //permission for camera is passed within the string
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
-            dispatchTakePictureIntent();//directs to dispatchTakePictureIntent method
+            //user has given permission to the app
+            dispatchTakePictureIntent();  
         }
     }
     
@@ -97,85 +101,90 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //checking whether permission is given for camera by comparing request code of camera with request code passed to onRequestPermissionResult
+        //checking  permission  by comparing request code of camera with request code passed to onRequestPermissionResult
         if (requestCode == CAMERA_PERM_CODE) {
             //checking grantResults array is empty
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){//if both the conditions are true then camera permission is given
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){  //camera permission given
                 dispatchTakePictureIntent();
-            } else {//toast message appear when both conditions are false
-                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+            } else {
+                //toast message appear when both conditions are false
+                Toast.makeText(this, "Camera permission is required to use camera.", Toast.LENGTH_SHORT).show();
             }
         }
     }
-    // onActivityResult method is used to display and save image
+    //onActivityResult method is used to display and save image as data of this app
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
-            //checking resultCode
             if (resultCode == Activity.RESULT_OK) {
-                File f = new File(currentPhotoPath);//creating new file f from the currentPhotoPath
-                selectedImage.setImageURI(Uri.fromFile(f));//set image to imageview using uri
+                File newfile = new File(currentPhotoPath);  //creating file  from currentPhotoPath
+                selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));//display absolute url of the file
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri contentUri = Uri.fromFile(f);
+                Uri contentUri = Uri.fromFile(newfile);
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
             }
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                assert data != null;
-                Uri contentUri = data.getData();//creating content URI using intent data
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
-                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                selectedImage.setImageURI(contentUri);
-                sampleImgText.setVisibility(View.INVISIBLE);
+                if(data != null) {
+                    Uri contentUri = data.getData();  //creating content URI using intent data
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  
+                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                    Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
+                    selectedImage.setImageURI(contentUri);
+                    sampleImgText.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }
-
+    //extracts extension of image picked from gallery
     public String getFileExt(Uri contentUri) {
-        ContentResolver c = getContentResolver();
+        ContentResolver content = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(c.getType(contentUri));
+        return mime.getExtensionFromMimeType(content.getType(contentUri));
     }
     
-    //creating collision resistant file name.This method creates a unique file name for new photo using data time stamp
-    //recommended method of creating image file from the camera
+    //This method creates a unique file name for new photo using data time stamp
+    //This method is used when photoFile is null
     private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creates time stamp
-        String imageFileName = ";JPEG_" + timeStamp + "_";//file name starts with JPEG followed by timestamp
-        // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) to save our file 
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());  //creates time stamp
+        String imageFileName = ";JPEG_" + timeStamp + "_";  //creating image file
+        //Standard directory to place image
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(//creating image file using the method of CreateTempFile we are passing image parameters
+        //creating image file using method of CreateTempFile
+        File image = File.createTempFile(
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir /* directory */
         );
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();//using AbsolutePath of image ,image can be displayed in imageview
+        //gets absolute path of image
+        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-    //open the camera and save our image file into the directory
+
+    //this method opens the camera and save our image file into the directory
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there is a camera activity to handle the intent , whether camera permission is given to the activity
+        //ensures camera is ready
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
+            //Create the File where the photo should go
             File photoFile = null;
+            //to prevent IOException
             try {
-                photoFile = createImageFile();//createImageFile can throw IOException so put inside try catch block.Creating photoFile assigning to Create image file which returns image
+                photoFile = createImageFile();  //this returns image
             } catch (IOException ex) {
+                 System.out.println(ex.getMessage());
             }
-// Continue only if the File was successfully created
+             //Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);//using file provider create URI
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);//using Mediastore.EXTRA-OUTPUT we can add extra input to our intent and can get data
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);//restarting the activity using camera permission code.
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);  //using file provider create URI
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);  //can add extra input
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);  //restarting the activity 
             }
         }
     }
