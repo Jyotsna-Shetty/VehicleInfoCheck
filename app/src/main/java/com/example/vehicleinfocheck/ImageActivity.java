@@ -44,7 +44,7 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
-        selectedImage = findViewById(R.id.displayImageView);  //finding imageview button
+        selectedImage = findViewById(R.id.displayImageView);  //finding imageview
         cameraBtn = findViewById(R.id.cameraBtn);  
         galleryBtn = findViewById(R.id.galleryBtn);  
         ScanBtn = findViewById(R.id.ScanBtn);  
@@ -73,7 +73,7 @@ public class ImageActivity extends AppCompatActivity {
             //For now, it redirects to WebActivity. It will perform the above function after OCR process is complete
             @Override
             public void onClick(View v) {
-                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class);  //Intent to redirect from ImageActivity to WebActivity
+                Intent webIntent = new Intent(ImageActivity.this, WebActivity.class);
                 startActivity(webIntent);
             }
         });
@@ -171,7 +171,7 @@ public class ImageActivity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             //Create the File where the photo should go
             File photoFile = null;
-            // to prevent IOException
+            //to prevent IOException
             try {
                 photoFile = createImageFile();  //this returns image
             } catch (IOException ex) {
