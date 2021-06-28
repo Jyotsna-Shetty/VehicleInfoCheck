@@ -2,8 +2,6 @@ package com.example.vehicleinfocheck;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -14,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +47,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,12 +60,12 @@ import java.util.Map;
 public class ImageActivity extends AppCompatActivity {
 
     public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;//camera request code
-    public static final int GALLERY_REQUEST_CODE = 105;//gallery request code
+    public static final int CAMERA_REQUEST_CODE = 102; //camera request code
+    public static final int GALLERY_REQUEST_CODE = 105; //gallery request code
     ImageView selectedImage;//import Imageview variable as selectedImage
     Button cameraBtn,galleryBtn, ScanBtn;//import camera and gallery button
     TextView sampleImgText;
-    String currentPhotoPath;
+    String currentPhotoPath, galleryPhotoPath;
     static{ System.loadLibrary("opencv_java3");}
     static Map<Integer, Mat> map = new HashMap<>();
     static Map<Integer, Character> characterMap = new HashMap<>();
@@ -113,16 +111,20 @@ public class ImageActivity extends AppCompatActivity {
             //For now, it redirects to WebActivity. It will perform the above function after OCR process is complete
             @Override
             public void onClick(View v) {
-                try {
-                    execution();
-                    Log.d("FINAL RESULT","License Plate Num: " + result);
-                    Log.d("FINAL RESULT","RES= "+ character);
-                    Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
-                    startActivity(webIntent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    recreate();
-                    Toast.makeText(ImageActivity.this,"Unable to identify license plate number",Toast.LENGTH_LONG).show();
+                if (currentPhotoPath != null || galleryPhotoPath != null) {
+                    try {
+                        execution();
+                        Log.d("FINAL RESULT","License Plate Num: " + result);
+                        Log.d("FINAL RESULT","RES= "+ character);
+                        Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
+                        startActivity(webIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        recreate();
+                        Toast.makeText(ImageActivity.this,"Unable to identify license plate number",Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(ImageActivity.this,"Add an image to proceed",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -177,19 +179,59 @@ public class ImageActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 Uri contentUri = data.getData();//creating content URI using intent data
+                File newFile = null;
+                try {
+                    newFile = getGalleryImage(contentUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
+                /*galleryPhotoPath = getPath(contentUri);
+                Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                selectedImage.setImageURI(contentUri);
+                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
+                selectedImage.setImageURI(Uri.fromFile(newFile));
                 sampleImgText.setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    public String getFileExt(Uri contentUri) {
+    /*public String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(c.getType(contentUri));
+    }
+
+    public String getPath(Uri uri) {
+        String path = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(projection[0]);
+                path = cursor.getString(column_index);
+            }
+            cursor.close();
+        }
+        if (path == null) {
+            path = "Not found";
+        }
+        return path;
+    }*/
+    public File getGalleryImage(Uri uri) throws IOException {
+        InputStream in =  getContentResolver().openInputStream(uri);
+        File photoFile = createImageFile();
+        FileProvider.getUriForFile(this,"com.example.android.FileProvider", photoFile);
+        OutputStream out = new FileOutputStream(photoFile);
+        byte[] buf = new byte[1024];
+        int len;
+        while((len=in.read(buf))>0){
+            out.write(buf,0,len);
+        }
+        out.close();
+        in.close();
+        return photoFile;
     }
     
     //creating collision resistant file name.This method creates a unique file name for new photo using data time stamp
@@ -230,10 +272,16 @@ public class ImageActivity extends AppCompatActivity {
 
     public void extractPlate() {
         Mat image = Imgcodecs.imread(currentPhotoPath);
+        Log.d("PATH",currentPhotoPath);
+        if (image.empty()) {
+            Log.d("IMAGE STAT","EMPTY");
+        } else {
+            Log.d("IMAGE STAT","NOT EMPTY");
+        }
         MatOfRect Detections = new MatOfRect();
         try {
             InputStream is = getResources().openRawResource(R.raw.indian_license_plate);
-            File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
+            File cascadeDir = getDir("cascade", MODE_PRIVATE);
             File mCascadeFile = new File(cascadeDir, "indian_license_plate.xml");
             FileOutputStream os = new FileOutputStream(mCascadeFile);
 
@@ -249,17 +297,17 @@ public class ImageActivity extends AppCompatActivity {
             licenseDetector.detectMultiScale(image, Detections, 1.3, 7);
             if(licenseDetector.empty())
             {
-                Log.v("ImageActivity","--(!)Error loading A\n");
+                Log.d("ImageActivity","--(!)Error loading A\n");
                 return;
             }
             else
             {
-                Log.v("ImageActivity",
+                Log.d("ImageActivity",
                         "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Log.v("ImageActivity", "Failed to load cascade. Exception thrown: " + e);
+            Log.d("ImageActivity", "Failed to load cascade. Exception thrown: " + e);
         }
 
         Rect rectCrop = new Rect();
@@ -271,6 +319,11 @@ public class ImageActivity extends AppCompatActivity {
             Imgproc.rectangle(image, new Point(rect.x, rect.y),
                     new Point(rect.x + rect.width + b, rect.y + rect.height + a), new Scalar(51, 51, 255), 3);
             plate = new Mat(image, rectCrop);
+            if (plate.empty()) {
+                Log.d("PLATE","NOT DETECTED");
+            } else {
+                Log.d("PLATE","DETECTED");
+            }
         }
 
     }
@@ -293,6 +346,7 @@ public class ImageActivity extends AppCompatActivity {
         Imgproc.dilate(binary, binary, element1);
         Imgproc.rectangle(binary, new Point(0,0), new Point(binary.width(),binary.height()), new Scalar(255, 255, 255), 3);
         plateBW = binary;
+        Log.d("CHAR SEGMENTATION","WORKS");
     }
     public void findContour() throws Exception {
         Mat src = plateBW;
@@ -305,7 +359,7 @@ public class ImageActivity extends AppCompatActivity {
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
         Imgproc.findContours(src, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        Log.v("TESTING","findContour");
+        Log.d("TESTING","findContour");
         Rect charCrop = null;
         for ( int contourIdx=0; contourIdx < contours.size(); contourIdx++ )
         {
@@ -315,7 +369,7 @@ public class ImageActivity extends AppCompatActivity {
             //Processing on mMOP2f1 which is in type MatOfPoint2f
             double approxDistance = Imgproc.arcLength(contour2f, true)*0.02;
             Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-
+            Log.d("FIND CONTOUR","For loop executed");
             //Convert back to MatOfPoint
             MatOfPoint points = new MatOfPoint( approxCurve.toArray() );
 
@@ -335,7 +389,14 @@ public class ImageActivity extends AppCompatActivity {
 
                 Imgproc.rectangle(src, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
                         new Scalar(255, 0, 0, 255), 2);
-
+                if (!charCrop.empty()) {
+                    Log.d("CHARS","FIND CONTOUR CHAR CROP NOT EMPTY");
+                } else {
+                    Log.d("CHARS","IS EMPTY");
+                }
+                Log.d("FIND CONTOUR","ENDS HERE");
+            } else {
+                Log.d("PROBLEM","Find contour if block not executed");
             }
         }
     }
@@ -344,14 +405,19 @@ public class ImageActivity extends AppCompatActivity {
         characterSegmentation();
         findContour();
         setCharacterMap();
+        Log.d("EXECUTION","Methods completed");
+        if (map.isEmpty()) {
+            Log.d("MAP","EMPTY");
+        }
         ArrayList<Integer> sortedKeys = new ArrayList<Integer>(map.keySet());
         Collections.sort(sortedKeys);
         for(Integer x : sortedKeys){
+            Log.d("TESTING","For loop starts");
             Utils.matToBitmap(map.get(x), bmp);
             bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
-
+                Log.d("TESTING","Try block");
                 //Creates inputs for reference.
                 TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28, 3}, DataType.FLOAT32);
                 TensorImage tensorImage = new TensorImage(DataType.FLOAT32);
@@ -384,9 +450,8 @@ public class ImageActivity extends AppCompatActivity {
         for(Character x : characters.toCharArray()){
             characterMap.put(i, x);
             ++i;
+            Log.d("SET CHAR MAP","FOR LOOP");
         }
-    }
-    public String returnResult(){
-        return result;
+        Log.d("SET CHAR MAP","WORKS");
     }
 }
