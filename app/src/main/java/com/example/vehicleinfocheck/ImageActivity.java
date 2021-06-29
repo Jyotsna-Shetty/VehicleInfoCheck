@@ -72,7 +72,7 @@ public class ImageActivity extends AppCompatActivity {
     static Map<Integer, Character> characterMap = new HashMap<>();
     static Mat plate;
     static Mat plateBW;
-    static Bitmap bmp;
+    static Bitmap bmp,imgCheck;
     public static String result;
     char character;
 
@@ -106,7 +106,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-        ScanBtn.setOnClickListener(new View.OnClickListener() {
+        /*ScanBtn.setOnClickListener(new View.OnClickListener() {
             //OnClickListener will be triggered when scan button is clicked
             //Sends the selected image to the deep learning model, extracts the license plate number and then redirects to WebActivity
             @Override
@@ -128,6 +128,17 @@ public class ImageActivity extends AppCompatActivity {
                 }
             }
 
+        });*/
+
+        ScanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                extractPlate();
+                characterSegmentation();
+                imgCheck = Bitmap.createBitmap(plateBW.cols(), plateBW.rows(), Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(plateBW, imgCheck);
+                selectedImage.setImageBitmap(imgCheck);
+            }
         });
 
     }
