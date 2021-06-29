@@ -435,9 +435,9 @@ public class ImageActivity extends AppCompatActivity {
         result = "";
         for(Integer x : sortedKeys){
             Log.d("TESTING","For loop starts");
-            bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(map.get(x), bmp);
+            //bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(map.get(x), bmp);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
