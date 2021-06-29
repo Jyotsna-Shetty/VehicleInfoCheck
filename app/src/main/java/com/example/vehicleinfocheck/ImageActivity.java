@@ -72,9 +72,10 @@ public class ImageActivity extends AppCompatActivity {
     static Map<Integer, Character> characterMap = new HashMap<>();
     static Mat plate;
     static Mat plateBW;
+    Mat char_image;
     static Bitmap bmp,imgCheck;
     public static String result;
-    char character;
+    static char character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-        /*ScanBtn.setOnClickListener(new View.OnClickListener() {
+        ScanBtn.setOnClickListener(new View.OnClickListener() {
             //OnClickListener will be triggered when scan button is clicked
             //Sends the selected image to the deep learning model, extracts the license plate number and then redirects to WebActivity
             @Override
@@ -128,18 +129,23 @@ public class ImageActivity extends AppCompatActivity {
                 }
             }
 
-        });*/
+        });
 
-        ScanBtn.setOnClickListener(new View.OnClickListener() {
+        /*ScanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 extractPlate();
                 characterSegmentation();
-                imgCheck = Bitmap.createBitmap(plateBW.cols(), plateBW.rows(), Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(plateBW, imgCheck);
+                try {
+                    findContour();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                imgCheck = Bitmap.createBitmap(char_image.cols(), char_image.rows(), Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(char_image, imgCheck);
                 selectedImage.setImageBitmap(imgCheck);
             }
-        });
+        });*/
 
     }
     //using checkSelfPermission method of ContextCompact to check whether permission is granted or not
@@ -368,12 +374,12 @@ public class ImageActivity extends AppCompatActivity {
         //Converting the source image to binary
         //Mat gray = new Mat(src.rows(), src.cols(),src.type());
         //Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-        //Mat binary = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
-        //Imgproc.threshold(src, binary, 100, 255, Imgproc.THRESH_BINARY_INV);
+        Mat binary = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
+        Imgproc.threshold(src, binary, 100, 255, Imgproc.THRESH_BINARY_INV);
         //Finding Contours
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
-        Imgproc.findContours(src, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(binary, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         Log.d("TESTING","findContour");
         Rect charCrop = null;
         for ( int contourIdx=0; contourIdx < contours.size(); contourIdx++ )
@@ -393,7 +399,7 @@ public class ImageActivity extends AppCompatActivity {
             if((Imgproc.contourArea(contours.get(contourIdx))>100) & (Imgproc.contourArea(contours.get(contourIdx))<1500)){
 
                 charCrop = new Rect(rect.x, rect.y, rect.width, rect.height);
-                Mat char_image = new Mat(src,charCrop);
+                char_image = new Mat(src,charCrop);
 
                 Imgproc.resize(char_image, char_image, new Size(20,40));
                 Mat invertcolormatrix= new Mat(char_image.rows(),char_image.cols(), char_image.type(), new Scalar(255,255,255));
@@ -426,14 +432,16 @@ public class ImageActivity extends AppCompatActivity {
         }
         ArrayList<Integer> sortedKeys = new ArrayList<Integer>(map.keySet());
         Collections.sort(sortedKeys);
+        result = "";
         for(Integer x : sortedKeys){
             Log.d("TESTING","For loop starts");
+            bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
             bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
-                //Creates inputs for reference.
+                //Creates inputs for reference
                 TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28, 3}, DataType.FLOAT32);
                 TensorImage tensorImage = new TensorImage(DataType.FLOAT32);
                 tensorImage.load(bmp);
@@ -448,7 +456,7 @@ public class ImageActivity extends AppCompatActivity {
                 model.close();
                 //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 //char character = characters.charAt(outputFeature0.getIntArray()[0]);
-                char character = characterMap.get(outputFeature0.getIntArray()[0]);
+                character = characterMap.get(outputFeature0.getIntArray()[0]);
                 result = result + character;
                 Log.d("SUCCESS","License Plate Num: " + result);
 
