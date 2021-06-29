@@ -454,10 +454,10 @@ public class ImageActivity extends AppCompatActivity {
 
                 //Releases model resources if no longer used.
                 model.close();
-                //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                //char character = characters.charAt(outputFeature0.getIntArray()[0]);
-                character = characterMap.get(outputFeature0.getIntArray()[0]);
-                result = result + character;
+                String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                character = characters.charAt(outputFeature0.getIntArray()[0]);
+                //character = characterMap.get(outputFeature0.getIntArray()[0]);
+                result = result.concat(String.valueOf(character));
                 Log.d("SUCCESS","License Plate Num: " + result);
 
             } catch (IOException e) {
