@@ -65,11 +65,11 @@ public class ImageActivity extends AppCompatActivity {
     ImageView selectedImage;    //import Imageview as selectedImage
     Button cameraBtn,galleryBtn, ScanBtn;   //import buttons
     TextView sampleImgText;
-    String currentPhotoPath, galleryPhotoPath;
+    String currentPhotoPath;
+    //String galleryPhotoPath;
     static{ System.loadLibrary("opencv_java3");}
     static Map<Integer, Mat> map = new HashMap<>();
     static Map<Integer, Character> characterMap = new HashMap<>();
-    //ImageActivity imgObject = new ImageActivity();
     static Mat plate;
     static Mat plateBW;
     static Bitmap bmp;
@@ -111,7 +111,7 @@ public class ImageActivity extends AppCompatActivity {
             //Sends the selected image to the deep learning model, extracts the license plate number and then redirects to WebActivity
             @Override
             public void onClick(View v) {
-                if (currentPhotoPath != null || galleryPhotoPath != null) {
+                if (currentPhotoPath != null) {
                     try {
                         execution();
                         Log.d("FINAL RESULT","License Plate Num: " + result);
@@ -121,10 +121,10 @@ public class ImageActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         recreate();
-                        Toast.makeText(ImageActivity.this,"Unable to identify license plate number",Toast.LENGTH_LONG).show();
+                        Toast.makeText(ImageActivity.this,"Unable to identify license plate number", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(ImageActivity.this,"Add an image to proceed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImageActivity.this,"Add an image to proceed", Toast.LENGTH_SHORT).show();
                 }
             }
 
