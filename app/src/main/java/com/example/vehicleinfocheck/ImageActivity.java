@@ -76,6 +76,8 @@ public class ImageActivity extends AppCompatActivity {
     static Bitmap bmp,imgCheck;
     public static String result;
     static char character;
+    static float[] classifyArray = new float[36];
+    static int letter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -452,13 +454,22 @@ public class ImageActivity extends AppCompatActivity {
                 CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
+                for(int i = 0; i<36; i++ ){
+                    classifyArray[i] = outputFeature0.getFloatArray()[i];
+                    if((int)classifyArray[i] == 1){
+                        letter = i;
+                        break;
+                    }
+                }
                 //Releases model resources if no longer used.
                 model.close();
-                String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                character = characters.charAt(outputFeature0.getIntArray()[0]);
-                //character = characterMap.get(outputFeature0.getIntArray()[0]);
-                result = result.concat(String.valueOf(character));
+                //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                //character = characters.charAt(outputFeature0.getIntArray()[0]);
+                character = characterMap.get(letter);
+                result = result + character;
+                outputFeature0.toString();
                 Log.d("SUCCESS","License Plate Num: " + result);
+                Log.d("TESTING","Output Float Array :" + classifyArray);
 
             } catch (IOException e) {
                 Log.d("FAIL","NO OUTPUT");
