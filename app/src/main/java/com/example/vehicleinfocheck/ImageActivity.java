@@ -116,7 +116,7 @@ public class ImageActivity extends AppCompatActivity {
                     try {
                         execution();
                         Log.d("FINAL RESULT","License Plate Num: " + result);
-                        Log.d("FINAL RESULT","RES= "+ character);
+                        Log.d("CHARACTER", String.valueOf(character));
                         Intent webIntent = new Intent(ImageActivity.this, WebActivity.class); //Intent to redirect from ImageActivity to WebActivity
                         startActivity(webIntent);
                     } catch (Exception e) {
@@ -134,16 +134,14 @@ public class ImageActivity extends AppCompatActivity {
         /*ScanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extractPlate();
-                characterSegmentation();
                 try {
-                    findContour();
+                    execution();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 imgCheck = Bitmap.createBitmap(char_image.cols(), char_image.rows(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(char_image, imgCheck);
-                selectedImage.setImageBitmap(imgCheck);
+                selectedImage.setImageBitmap(bmp);
             }
         });*/
 
@@ -197,7 +195,7 @@ public class ImageActivity extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
-                Uri contentUri = data.getData();    //creating content URI using intent data
+                Uri contentUri = data.getData();  //creating content URI using intent data
                 File newFile = null;
                 try {
                     newFile = getGalleryImage(contentUri);
@@ -435,9 +433,9 @@ public class ImageActivity extends AppCompatActivity {
         result = "";
         for(Integer x : sortedKeys){
             Log.d("TESTING","For loop starts");
-            //bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
-            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
+            bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
+            bmp = Bitmap.createScaledBitmap(bmp, 28, 28, true);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
