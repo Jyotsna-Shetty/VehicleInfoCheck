@@ -51,7 +51,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,10 +76,6 @@ public class ImageActivity extends AppCompatActivity {
     static Bitmap bmp,imgCheck;
     public static String result;
     static char character;
-    static float[] classifyArray = new float[100];
-    static int letter = 0;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -441,9 +436,8 @@ public class ImageActivity extends AppCompatActivity {
         for(Integer x : sortedKeys){
             Log.d("TESTING","For loop starts");
             bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
-            //bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
-            bmp = Bitmap.createScaledBitmap(bmp,28,28,true);
+            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
@@ -458,21 +452,12 @@ public class ImageActivity extends AppCompatActivity {
                 CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-                for(int i = 0; i<36; i++){
-                    classifyArray[i] = outputFeature0.getFloatArray()[i];
-                    if((int)classifyArray[i] == 1){
-                        letter = i;
-                        break;
-                    }
-                }
                 //Releases model resources if no longer used.
                 model.close();
-                //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                //char character = characters.charAt(outputFeature0.getIntArray()[0]);
-                character = characterMap.get(letter);
-                result = result + character;
-                outputFeature0.toString();
-                Log.d("TESTING","Output Float Array:" + classifyArray);
+                String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                character = characters.charAt(outputFeature0.getIntArray()[0]);
+                //character = characterMap.get(outputFeature0.getIntArray()[0]);
+                result = result.concat(String.valueOf(character));
                 Log.d("SUCCESS","License Plate Num: " + result);
 
             } catch (IOException e) {
