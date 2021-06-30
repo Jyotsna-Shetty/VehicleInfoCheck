@@ -458,9 +458,11 @@ public class ImageActivity extends AppCompatActivity {
                     classifyArray[i] = outputFeature0.getFloatArray()[i];
                     if((int)classifyArray[i] == 1){
                         letter = i;
+                        Log.d("INDEX","i= " + i);
                         break;
                     }
                 }
+
                 //Releases model resources if no longer used.
                 model.close();
                 //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
