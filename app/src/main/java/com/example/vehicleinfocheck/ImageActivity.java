@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -469,9 +470,8 @@ public class ImageActivity extends AppCompatActivity {
                 //character = characters.charAt(outputFeature0.getIntArray()[0]);
                 character = characterMap.get(letter);
                 result = result + character;
-                outputFeature0.toString();
                 Log.d("SUCCESS","License Plate Num: " + result);
-                Log.d("TESTING","Output Float Array :" + classifyArray);
+                Log.d("TESTING","Output Float Array :" + Arrays.toString(classifyArray));
 
             } catch (IOException e) {
                 Log.d("FAIL","NO OUTPUT");
