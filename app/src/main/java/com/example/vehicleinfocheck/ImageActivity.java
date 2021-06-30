@@ -62,9 +62,9 @@ public class ImageActivity extends AppCompatActivity {
 
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;  //camera request code
-    public static final int GALLERY_REQUEST_CODE = 105; //gallery request code
-    ImageView selectedImage;    //import Imageview as selectedImage
-    Button cameraBtn,galleryBtn, ScanBtn;   //import buttons
+    public static final int GALLERY_REQUEST_CODE = 105;  //gallery request code
+    ImageView selectedImage;  //import Imageview as selectedImage
+    Button cameraBtn,galleryBtn, ScanBtn; //import buttons
     TextView sampleImgText;
     String currentPhotoPath;
     //String galleryPhotoPath;
@@ -84,7 +84,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);   //fixes orientation to PORTRAIT mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
         selectedImage = findViewById(R.id.displayImageView); //finding imageview
         sampleImgText = findViewById(R.id.SampleImgMsg);
@@ -186,10 +186,10 @@ public class ImageActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             //checking resultCode
             if (resultCode == Activity.RESULT_OK) {
-                File newfile = new File(currentPhotoPath);    //creating new file  from currentPhotoPath
-                selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
+                File newfile = new File(currentPhotoPath);  //creating new file  from currentPhotoPath
+                selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));    //display absolute url of the file
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(newfile);
@@ -200,7 +200,7 @@ public class ImageActivity extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
-                Uri contentUri = data.getData();    //creating content URI using intent data
+                Uri contentUri = data.getData();  //creating content URI using intent data
                 File newFile = null;
                 try {
                     newFile = getGalleryImage(contentUri);
