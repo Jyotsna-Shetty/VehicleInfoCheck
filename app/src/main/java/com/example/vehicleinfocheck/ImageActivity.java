@@ -199,22 +199,23 @@ public class ImageActivity extends AppCompatActivity {
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                assert data != null;
-                Uri contentUri = data.getData();  //creating content URI using intent data
-                File newFile = null;
-                try {
-                    newFile = getGalleryImage(contentUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (data != null) {
+                    Uri contentUri = data.getData();  //creating content URI using intent data
+                    File newFile = null;
+                    try {
+                        newFile = getGalleryImage(contentUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
+                    /*galleryPhotoPath = getPath(contentUri);
+                    Log.d("GALLERY IMAGE","PATH: " + galleryPhotoPath);
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
+                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                    Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
+                    selectedImage.setImageURI(Uri.fromFile(newFile));
+                    sampleImgText.setVisibility(View.INVISIBLE);
                 }
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
-                /*galleryPhotoPath = getPath(contentUri);
-                Log.d("GALLERY IMAGE","PATH: " + galleryPhotoPath);
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
-                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
-                selectedImage.setImageURI(Uri.fromFile(newFile));
-                sampleImgText.setVisibility(View.INVISIBLE);
             }
         }
     }
