@@ -62,9 +62,9 @@ public class ImageActivity extends AppCompatActivity {
 
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;  //camera request code
-    public static final int GALLERY_REQUEST_CODE = 105;  //gallery request code
-    ImageView selectedImage;  //import Imageview as selectedImage
-    Button cameraBtn,galleryBtn, ScanBtn; //import buttons
+    public static final int GALLERY_REQUEST_CODE = 105; //gallery request code
+    ImageView selectedImage;    //import Imageview as selectedImage
+    Button cameraBtn,galleryBtn, ScanBtn;   //import buttons
     TextView sampleImgText;
     String currentPhotoPath;
     //String galleryPhotoPath;
@@ -84,7 +84,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);   //fixes orientation to PORTRAIT mode
 
         selectedImage = findViewById(R.id.displayImageView); //finding imageview
         sampleImgText = findViewById(R.id.SampleImgMsg);
@@ -186,10 +186,10 @@ public class ImageActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             //checking resultCode
             if (resultCode == Activity.RESULT_OK) {
-                File newfile = new File(currentPhotoPath);  //creating new file  from currentPhotoPath
-                selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
+                File newfile = new File(currentPhotoPath);    //creating new file  from currentPhotoPath
+                selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));    //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(newfile);
@@ -199,23 +199,22 @@ public class ImageActivity extends AppCompatActivity {
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    Uri contentUri = data.getData();  //creating content URI using intent data
-                    File newFile = null;
-                    try {
-                        newFile = getGalleryImage(contentUri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
-                    /*galleryPhotoPath = getPath(contentUri);
-                    Log.d("GALLERY IMAGE","PATH: " + galleryPhotoPath);
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
-                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                    Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
-                    selectedImage.setImageURI(Uri.fromFile(newFile));
-                    sampleImgText.setVisibility(View.INVISIBLE);
+                assert data != null;
+                Uri contentUri = data.getData();    //creating content URI using intent data
+                File newFile = null;
+                try {
+                    newFile = getGalleryImage(contentUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
+                /*galleryPhotoPath = getPath(contentUri);
+                Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
+                selectedImage.setImageURI(Uri.fromFile(newFile));
+                sampleImgText.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -294,7 +293,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
-
+    //This method extracts and crops the license plate from the image captured or selected
     public void extractPlate() {
         Mat image = Imgcodecs.imread(currentPhotoPath);
         Log.d("PATH",currentPhotoPath);
@@ -352,6 +351,7 @@ public class ImageActivity extends AppCompatActivity {
         }
 
     }
+    //This method applies a few basic OpenCV operations to aid character segmentation which is carried out further in the findContour function
     public void characterSegmentation(){
         Mat src = plate;
         Mat dst = new Mat(); //New matrix to store the final image where the input image is supposed to be written
@@ -373,6 +373,7 @@ public class ImageActivity extends AppCompatActivity {
         plateBW = binary;
         Log.d("CHAR SEGMENTATION","WORKS");
     }
+    //This method finds the contours of the letters in the license plate, crops and stores them in a map individually
     public void findContour() throws Exception {
         Mat src = plateBW;
         //Converting the source image to binary
@@ -425,6 +426,8 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
+    //This method is responsible for the overall execution of image processing. It calls the extractPlate, characterSegmentation and findContour methods
+    //and obtains the final license plate number with the help of a deep learning model to obtain individual characters
     public void execution() throws Exception {
         extractPlate();
         characterSegmentation();
@@ -441,7 +444,7 @@ public class ImageActivity extends AppCompatActivity {
             Log.d("TESTING","For loop starts");
             bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
-            bmp = Bitmap.createScaledBitmap(bmp, 28, 28, true);
+            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
@@ -452,7 +455,7 @@ public class ImageActivity extends AppCompatActivity {
                 ByteBuffer byteBuffer = tensorImage.getBuffer();
 
                 inputFeature0.loadBuffer(byteBuffer);
-                //Runs model inference and gets result
+                //Runs model inference and gets result.
                 CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
@@ -468,9 +471,8 @@ public class ImageActivity extends AppCompatActivity {
                 //Releases model resources if no longer used.
                 model.close();
                 //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                //character = characters.charAt(getMaxIndex(classifyArray));
-                character = characterMap.get(getMaxIndex(classifyArray));
-                Log.d("INDEX TESTING","I= " + getMaxIndex(classifyArray));
+                //character = characters.charAt(outputFeature0.getIntArray()[0]);
+                character = characterMap.get(letter);
                 result = result + character;
                 Log.d("SUCCESS","License Plate Num: " + result);
                 Log.d("TESTING","Output Float Array :" + Arrays.toString(classifyArray));
@@ -482,6 +484,7 @@ public class ImageActivity extends AppCompatActivity {
         }
 
     }
+    //This method enumerates the deep learning model labels with the help of a map
     public void setCharacterMap(){
         Integer i = 0;
         String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -492,14 +495,4 @@ public class ImageActivity extends AppCompatActivity {
         }
         Log.d("SET CHAR MAP","WORKS");
     }
-
-    public int getMaxIndex(float[] arr) {
-        List<Float> checkList = new ArrayList<>();
-        for (float v : arr) {
-            checkList.add(v);
-        }
-        float maxVal = Collections.max(checkList);
-        return checkList.indexOf(maxVal);
-    }//function called in OnClickListener
-    //filepath of camera/gallery image
 }

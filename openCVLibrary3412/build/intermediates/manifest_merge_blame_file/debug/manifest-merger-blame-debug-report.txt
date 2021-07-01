@@ -5,10 +5,10 @@
 5    android:versionName="3.4.12" >
 6
 7    <uses-sdk
-7-->C:\Users\Hp\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:5-73
+7-->C:\Users\nandi\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:5-73
 8        android:minSdkVersion="8"
-8-->C:\Users\Hp\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:15-40
+8-->C:\Users\nandi\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:15-40
 9        android:targetSdkVersion="30" />
-9-->C:\Users\Hp\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:41-70
+9-->C:\Users\nandi\AndroidStudioProjects\VehicleInfoCheck\openCVLibrary3412\src\main\AndroidManifest.xml:7:41-70
 10
 11</manifest>
