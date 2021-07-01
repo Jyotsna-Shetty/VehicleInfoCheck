@@ -209,7 +209,7 @@ public class ImageActivity extends AppCompatActivity {
                 }
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
                 /*galleryPhotoPath = getPath(contentUri);
-                Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
+                Log.d("GALLERY IMAGE","PATH: " + galleryPhotoPath);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
@@ -440,7 +440,7 @@ public class ImageActivity extends AppCompatActivity {
             Log.d("TESTING","For loop starts");
             bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
-            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
+            bmp = Bitmap.createScaledBitmap(bmp, 28, 28, true);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
@@ -451,7 +451,7 @@ public class ImageActivity extends AppCompatActivity {
                 ByteBuffer byteBuffer = tensorImage.getBuffer();
 
                 inputFeature0.loadBuffer(byteBuffer);
-                //Runs model inference and gets result.
+                //Runs model inference and gets result
                 CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
@@ -467,8 +467,9 @@ public class ImageActivity extends AppCompatActivity {
                 //Releases model resources if no longer used.
                 model.close();
                 //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                //character = characters.charAt(outputFeature0.getIntArray()[0]);
-                character = characterMap.get(letter);
+                //character = characters.charAt(getMaxIndex(classifyArray));
+                character = characterMap.get(getMaxIndex(classifyArray));
+                Log.d("INDEX TESTING","I= " + getMaxIndex(classifyArray));
                 result = result + character;
                 Log.d("SUCCESS","License Plate Num: " + result);
                 Log.d("TESTING","Output Float Array :" + Arrays.toString(classifyArray));
@@ -490,4 +491,14 @@ public class ImageActivity extends AppCompatActivity {
         }
         Log.d("SET CHAR MAP","WORKS");
     }
+
+    public int getMaxIndex(float[] arr) {
+        List<Float> checkList = new ArrayList<>();
+        for (float v : arr) {
+            checkList.add(v);
+        }
+        float maxVal = Collections.max(checkList);
+        return checkList.indexOf(maxVal);
+    }//function called in OnClickListener
+    //filepath of camera/gallery image
 }
