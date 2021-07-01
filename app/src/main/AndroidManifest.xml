@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/vic_app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VehicleInfoCheck">
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
         <activity android:name=".WebActivity" />
         <activity android:name=".ImageActivity" />
         <activity android:name=".MainActivity">
