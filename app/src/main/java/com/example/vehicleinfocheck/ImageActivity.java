@@ -193,7 +193,7 @@ public class ImageActivity extends AppCompatActivity {
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
             } else {
-                Toast.makeText(this, "Unknown error, try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "An error has occurred, try again", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
