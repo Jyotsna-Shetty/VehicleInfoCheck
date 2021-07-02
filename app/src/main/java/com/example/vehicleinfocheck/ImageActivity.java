@@ -192,6 +192,8 @@ public class ImageActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(newfile);
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
+            } else {
+                Toast.makeText(this, "Unknown error, try again", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
