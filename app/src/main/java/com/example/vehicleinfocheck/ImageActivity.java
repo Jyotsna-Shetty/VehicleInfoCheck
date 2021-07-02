@@ -185,7 +185,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             //checking resultCode
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK && currentPhotoPath != null) {
                 File newfile = new File(currentPhotoPath);  //creating new file  from currentPhotoPath
                 selectedImage.setImageURI(Uri.fromFile(newfile));  //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
@@ -195,6 +195,9 @@ public class ImageActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(newfile);
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
+            }
+            else {
+                Toast.makeText(this,"Unknown error, try again",Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
