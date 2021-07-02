@@ -349,7 +349,6 @@ public class ImageActivity extends AppCompatActivity {
                 Log.d("PLATE","DETECTED");
             }
         }
-
     }
     //This method applies a few basic OpenCV operations to aid the process of obtaining the individual characters in the findContour method
     public void preProcessing(){
