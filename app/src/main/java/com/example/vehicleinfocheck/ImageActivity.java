@@ -351,8 +351,8 @@ public class ImageActivity extends AppCompatActivity {
         }
 
     }
-    //This method applies a few basic OpenCV operations to aid character segmentation which is carried out further in the findContour function
-    public void characterSegmentation(){
+    //This method applies a few basic OpenCV operations to aid the process of obtaining the individual characters in the findContour method
+    public void preProcessing(){
         Mat src = plate;
         Mat dst = new Mat(); //New matrix to store the final image where the input image is supposed to be written
         Imgproc.resize(src, dst, new Size(333, 75));//Scaling the Image using Resize function
@@ -430,7 +430,7 @@ public class ImageActivity extends AppCompatActivity {
     //and obtains the final license plate number with the help of a deep learning model to obtain individual characters
     public void execution() throws Exception {
         extractPlate();
-        characterSegmentation();
+        preProcessing();
         findContour();
         setCharacterMap();
         Log.d("EXECUTION","Methods completed");
