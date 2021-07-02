@@ -84,7 +84,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);   //fixes orientation to PORTRAIT mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);  //fixes orientation to PORTRAIT mode
 
         selectedImage = findViewById(R.id.displayImageView); //finding imageview
         sampleImgText = findViewById(R.id.SampleImgMsg);
@@ -105,7 +105,7 @@ public class ImageActivity extends AppCompatActivity {
             //OnClickListener will be triggered when gallery button is clicked
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//creating new intent to select photo from media storage
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);  //intent to select photo from media storage
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
         });
@@ -155,7 +155,6 @@ public class ImageActivity extends AppCompatActivity {
     private void askCameraPermissions() {
         //checks for permission from manifest file using PackageManager.PERMISSION_GRANTED
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            //Activitycompat class requestPermissions method requests permission during runtime
             //permission for camera is passed within the string
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
@@ -170,26 +169,24 @@ public class ImageActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //checking permission by comparing request code of camera with request code passed to onRequestPermissionResult
         if (requestCode == CAMERA_PERM_CODE) {
-            //checking grantResults array is empty
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){//if both the conditions are true then camera permission is given
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){  //camera permission is given
                 dispatchTakePictureIntent();
             } else {
-                //toast message appear when both conditions are false
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
     }
-    //onActivityResult method is used to display and save image
+    //onActivityResult method is used to display and save image as data of this app
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             //checking resultCode
-            if (resultCode == Activity.RESULT_OK) {
-                File newfile = new File(currentPhotoPath);    //creating new file  from currentPhotoPath
-                selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
+            if (resultCode == Activity.RESULT_OK && currentPhotoPath != null) {
+                File newfile = new File(currentPhotoPath);  //creating new file  from currentPhotoPath
+                selectedImage.setImageURI(Uri.fromFile(newfile));
                 sampleImgText.setVisibility(View.INVISIBLE);
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));    //display absolute url of the file
+                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));  //display absolute url of the file
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(newfile);
@@ -199,22 +196,23 @@ public class ImageActivity extends AppCompatActivity {
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                assert data != null;
-                Uri contentUri = data.getData();    //creating content URI using intent data
-                File newFile = null;
-                try {
-                    newFile = getGalleryImage(contentUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (data != null) {
+                    Uri contentUri = data.getData();  //creating content URI using intent data
+                    File newFile = null;
+                    try {
+                        newFile = getGalleryImage(contentUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile));  //display absolute url of the file
+                    /*galleryPhotoPath = getPath(contentUri);
+                    Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
+                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                    Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
+                    selectedImage.setImageURI(Uri.fromFile(newFile));
+                    sampleImgText.setVisibility(View.INVISIBLE);
                 }
-                Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
-                /*galleryPhotoPath = getPath(contentUri);
-                Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
-                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
-                selectedImage.setImageURI(Uri.fromFile(newFile));
-                sampleImgText.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -270,7 +268,7 @@ public class ImageActivity extends AppCompatActivity {
                 storageDir /* directory */
         );
         //gets absolute path of image
-        currentPhotoPath = image.getAbsolutePath();//using AbsolutePath of image ,image can be displayed in imageview
+        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
     //this method opens the camera and save our image file into the directory
@@ -289,7 +287,7 @@ public class ImageActivity extends AppCompatActivity {
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.FileProvider", photoFile);   //using file provider create URI
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);  //can add extra input
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);   //restarting the activity
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);  //restarting the activity
             }
         }
     }
@@ -426,7 +424,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
-    //This method is responsible for the overall execution of image processing. It calls the extractPlate, characterSegmentation and findContour methods
+    //This method is responsible for the overall execution of image processing. It calls the extractPlate, preProcessing and findContour methods
     //and obtains the final license plate number with the help of a deep learning model to obtain individual characters
     public void execution() throws Exception {
         extractPlate();
@@ -444,7 +442,7 @@ public class ImageActivity extends AppCompatActivity {
             Log.d("TESTING","For loop starts");
             bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
-            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
+            bmp = Bitmap.createScaledBitmap(bmp, 28, 28, true);
             try {
                 CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
@@ -461,19 +459,17 @@ public class ImageActivity extends AppCompatActivity {
 
                 for(int i = 0; i<36; i++ ){
                     classifyArray[i] = outputFeature0.getFloatArray()[i];
-                    if((int)classifyArray[i] == 1){
-                        letter = i;
-                        Log.d("INDEX","i= " + i);
-                        break;
-                    }
                 }
 
                 //Releases model resources if no longer used.
                 model.close();
                 //String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 //character = characters.charAt(outputFeature0.getIntArray()[0]);
-                character = characterMap.get(letter);
-                result = result + character;
+                character = characterMap.get(getMaxIndex(classifyArray));
+                Log.d("INDEX TESTING","I= " + getMaxIndex(classifyArray));
+
+                result = result + character; //string that stores license plate number
+
                 Log.d("SUCCESS","License Plate Num: " + result);
                 Log.d("TESTING","Output Float Array :" + Arrays.toString(classifyArray));
 
@@ -495,4 +491,15 @@ public class ImageActivity extends AppCompatActivity {
         }
         Log.d("SET CHAR MAP","WORKS");
     }
+    //This method returns the index of the character (0-9 or A-Z) that has the highest probabilty
+    //as given by the deep learning model
+    public int getMaxIndex(float[] arr) {
+        List<Float> checkList = new ArrayList<>();
+        for (float v : arr) {
+            checkList.add(v);
+        }
+        float maxVal = Collections.max(checkList);
+        return checkList.indexOf(maxVal);
+    }
+
 }
