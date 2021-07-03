@@ -14,7 +14,7 @@ This image is then processed using OpenCV for Java. This involves:
 
 The processed images are sent to the Tensorflow deep learning model which performs optical character recognition to identify the license plate number.
 
-Next, the user is redirected to the page which displays the [VAHAN website](https://vahan.nic.in/nrservices/faces/user/login.xhtml), where the detected license plate number can be used to obtain details such as _vehicle model, fuel type, manufacturer details_, among others.
+Next, the user is redirected to the page which displays the [VAHAN website](https://vahan.nic.in/nrservices/faces/user/login.xhtml), where the detected license plate number can be used to obtain details such as vehicle model, fuel type, manufacturer details, among others.
 ## To import the project into Android Studio 
 1.	Open Android Studio, click **File --> New --> Project from Version Control**.
 2.	Choose Git from the Version control dropdown.
@@ -26,7 +26,7 @@ Android Studio – this project was built on version 4.1.0
 
 Git installed on the device.
 
-External library – OpenCV (see [Enabling OpenCV](https://github.com/Jyotsna-Shetty/VehicleInfoCheck/blob/master/README.md#enabling-opencv))
+External library – OpenCV (see [Enabling OpenCV](https://github.com/Jyotsna-Shetty/VehicleInfoCheck#enabling-opencv))
 
 RAM – preferably 8 GB and above (users with 4 GB RAM will have issues running the emulator).
 
