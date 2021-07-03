@@ -24,11 +24,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.vehicleinfocheck.ml.BmpCharacterRecognitionModel;
 import com.example.vehicleinfocheck.ml.CharacterRecognitionModel;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfRect;
@@ -40,15 +43,19 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Tensor;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +64,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -79,6 +87,10 @@ public class ImageActivity extends AppCompatActivity {
     static char character;
     static float[] classifyArray = new float[36];
     static int letter;
+    static Mat cropped;
+    static int rows, cols;
+    static int[] data;
+    static int[] shape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,7 +383,7 @@ public class ImageActivity extends AppCompatActivity {
         Imgproc.dilate(binary, binary, element1);
         Imgproc.rectangle(binary, new Point(0,0), new Point(binary.width(),binary.height()), new Scalar(255, 255, 255), 3);
         plateBW = binary;
-        Log.d("CHAR SEGMENTATION","WORKS");
+        Log.d("PRE PROCESSING","WORKS");
     }
     //This method finds the contours of the letters in the license plate, crops and stores them in a map individually
     public void findContour() throws Exception {
@@ -444,9 +456,10 @@ public class ImageActivity extends AppCompatActivity {
             Log.d("TESTING","For loop starts");
             bmp = Bitmap.createBitmap(map.get(x).cols(), map.get(x).rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(map.get(x), bmp);
-            bmp = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888);
+            bmp = Bitmap.createScaledBitmap(bmp, 28,28,true);
+
             try {
-                CharacterRecognitionModel model = CharacterRecognitionModel.newInstance(getApplicationContext());
+                BmpCharacterRecognitionModel model = BmpCharacterRecognitionModel.newInstance(getApplicationContext());
                 Log.d("TESTING","Try block");
                 //Creates inputs for reference
                 TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28, 3}, DataType.FLOAT32);
@@ -455,8 +468,9 @@ public class ImageActivity extends AppCompatActivity {
                 ByteBuffer byteBuffer = tensorImage.getBuffer();
 
                 inputFeature0.loadBuffer(byteBuffer);
+
                 //Runs model inference and gets result.
-                CharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
+                BmpCharacterRecognitionModel.Outputs outputs = model.process(inputFeature0);
                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
                 for(int i = 0; i<36; i++ ){
@@ -482,8 +496,19 @@ public class ImageActivity extends AppCompatActivity {
             }
 
         }
-
+        /*String filename = "external.png";
+        File sd = Environment.getExternalStorageDirectory();
+        File dest = new File(sd, filename);
+        try {
+            FileOutputStream out = new FileOutputStream(dest);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
+
     //This method enumerates the deep learning model labels with the help of a map
     public void setCharacterMap(){
         Integer i = 0;
@@ -495,4 +520,5 @@ public class ImageActivity extends AppCompatActivity {
         }
         Log.d("SET CHAR MAP","WORKS");
     }
+
 }
