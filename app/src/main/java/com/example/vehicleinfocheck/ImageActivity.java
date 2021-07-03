@@ -143,31 +143,13 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"Add an image to proceed", Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
-
-        /*ScanBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                extractPlate();
-                characterSegmentation();
-                try {
-                    findContour();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                imgCheck = Bitmap.createBitmap(char_image.cols(), char_image.rows(), Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(char_image, imgCheck);
-                selectedImage.setImageBitmap(imgCheck);
-            }
-        });*/
-
     }
+    
     //using checkSelfPermission method of ContextCompact to check whether permission is granted or not
     private void askCameraPermissions() {
         //checks for permission from manifest file using PackageManager.PERMISSION_GRANTED
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            //Activitycompat class requestPermissions method requests permission during runtime
             //permission for camera is passed within the string
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
@@ -182,11 +164,9 @@ public class ImageActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //checking permission by comparing request code of camera with request code passed to onRequestPermissionResult
         if (requestCode == CAMERA_PERM_CODE) {
-            //checking grantResults array is empty
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){//if both the conditions are true then camera permission is given
                 dispatchTakePictureIntent();
             } else {
-                //toast message appear when both conditions are false
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -197,7 +177,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             //checking resultCode
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK && currentPhotoPath != null) {
                 File newfile = new File(currentPhotoPath);    //creating new file  from currentPhotoPath
                 selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
@@ -207,7 +187,9 @@ public class ImageActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(newfile);
                 mediaScanIntent.setData(contentUri);
                 sendBroadcast(mediaScanIntent);
-            }
+            } else {
+                Toast.makeText(ImageActivity.this,"Unknown error has occured, try again", Toast.LENGTH_SHORT).show();
+            }   
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
