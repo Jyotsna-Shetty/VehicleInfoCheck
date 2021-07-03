@@ -26,7 +26,7 @@ Android Studio – this project was built on version 4.1.0
 
 Git installed on the device.
 
-External library – OpenCV (Enabling OpenCV – link to instructions in our repo)
+External library – OpenCV (see [Enabling OpenCV](https://github.com/Jyotsna-Shetty/VehicleInfoCheck/blob/master/README.md#enabling-opencv))
 
 RAM – preferably 8 GB and above (users with 4 GB RAM will have issues running the emulator).
 
