@@ -192,8 +192,7 @@ public class ImageActivity extends AppCompatActivity {
             }   
         }
         if (requestCode == GALLERY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                assert data != null;
+            if (resultCode == Activity.RESULT_OK && data != null) {
                 Uri contentUri = data.getData();    //creating content URI using intent data
                 File newFile = null;
                 try {
