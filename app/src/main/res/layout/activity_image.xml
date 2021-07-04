@@ -124,6 +124,7 @@
         android:backgroundTint="#7EDEE8"
         android:fontFamily="@font/raleway_semibold"
         android:text="@string/ScanButton"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

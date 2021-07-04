@@ -30,8 +30,5 @@ public class MainActivity extends AppCompatActivity {
             finish();
             //the current activity will get finished.
         }, SPLASH_SCREEN_TIME_OUT);
-
-
-
     }
 }
