@@ -26,6 +26,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.vehicleinfocheck.ml.BmpCharacterRecognitionModel;
 import com.example.vehicleinfocheck.ml.CharacterRecognitionModel;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -179,7 +180,8 @@ public class ImageActivity extends AppCompatActivity {
             //checking resultCode
             if (resultCode == Activity.RESULT_OK && currentPhotoPath != null) {
                 File newfile = new File(currentPhotoPath);    //creating new file  from currentPhotoPath
-                selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
+                CropImage.activity(Uri.fromFile(newfile)).start(this);
+                //selectedImage.setImageURI(Uri.fromFile(newfile));   //set image to imageview using uri
                 sampleImgText.setVisibility(View.INVISIBLE);
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newfile));    //display absolute url of the file
 
@@ -191,6 +193,20 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(ImageActivity.this,"Unknown error has occured, try again", Toast.LENGTH_SHORT).show();
             }   
         }
+        //for cropping the image
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                assert result != null;
+                Uri resultUri = result.getUri();
+                selectedImage.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                assert result != null;
+                Exception error = result.getError();
+                Log.d("tag", "ERROR: " + error);
+
+            }
+        }
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 Uri contentUri = data.getData();    //creating content URI using intent data
@@ -201,14 +217,16 @@ public class ImageActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(newFile)); //display absolute url of the file
+                CropImage.activity(contentUri).start(this);
                 /*galleryPhotoPath = getPath(contentUri);
                 Log.d("GALLERY IMAGE","PATH; " + galleryPhotoPath);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());//creating file name using time stamp
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);*/
-                selectedImage.setImageURI(Uri.fromFile(newFile));
+                //selectedImage.setImageURI(Uri.fromFile(newFile));
                 sampleImgText.setVisibility(View.INVISIBLE);
             }
+
         }
     }
 
