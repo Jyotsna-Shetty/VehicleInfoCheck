@@ -262,10 +262,6 @@ public class ImageActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();//using AbsolutePath of image ,image can be displayed in imageview
         return image;
     }
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
     //this method opens the camera and save our image file into the directory
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
