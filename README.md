@@ -2,6 +2,9 @@
 An Android application that scans Indian license plate images and extracts the details of the vehicle from the national vehicle registry, VAHAN.
 
 ## Description
+![20210704_154306](https://user-images.githubusercontent.com/81788169/124381452-51e9e480-dce0-11eb-8a7e-be483d1d0fe1.gif)
+
+
 The app can capture an image using the device camera or choose an image from the device’s gallery which can be cropped as per the user’s preference.
 This image is then processed using OpenCV for Java. This involves:
 *	Extracting the license plate from the image
