@@ -80,4 +80,6 @@ This project is licensed under the GNU General Public License v3.0. The file con
 ## Credits
 Deep learning model used - https://github.com/SarthakV7/AI-based-indian-license-plate-detection.
 
+Library used for cropping images - https://github.com/ArthurHub/Android-Image-Cropper
+
 Reference used for WebScraper class - https://github.com/Udayraj123/VehicleInfoOCR. 
