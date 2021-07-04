@@ -53,7 +53,7 @@ Available storage space on device – 50 MB +
 This folder contains the main code and gradle file for the app, along with auto-generated .gitignore and proguard-rules files.
 
 #### src
-Contains `main` folder (all Android studio files and folders present in it) and two test folders (not used in this project).
+Contains `main` folder (all Android studio files and folders present in it) and two test folders (not used in this project). Inside `main`, we have:
 
 ***java/com/example/vehicleinfocheck***: Contains all java classes defining the function of the app.
 1. Activity classes: MainActivity- loading screen; ImageActivity- image selection and processing; WebActivity- Website display and function.
