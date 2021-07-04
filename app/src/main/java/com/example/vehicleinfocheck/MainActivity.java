@@ -1,13 +1,12 @@
 package com.example.vehicleinfocheck;
 
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
 import android.content.Intent;
-
 import android.os.Handler;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.pm.ActivityInfo;
 
 //Class that contains layout of the complete app
 public class MainActivity extends AppCompatActivity {
@@ -31,9 +30,5 @@ public class MainActivity extends AppCompatActivity {
             finish();
             //the current activity will get finished.
         }, SPLASH_SCREEN_TIME_OUT);
-
-
-
     }
-
 }
