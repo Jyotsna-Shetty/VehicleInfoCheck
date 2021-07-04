@@ -1,7 +1,6 @@
 # VehicleInfoCheck
 An Android application that scans Indian license plate images and extracts the details of the vehicle from the national vehicle registry, VAHAN.
 
-Status: _In progress_
 ## Description
 The app can capture an image using the device camera or choose an image from the device’s gallery which can be cropped as per the user’s preference.
 This image is then processed using OpenCV for Java. This involves:
